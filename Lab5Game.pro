@@ -29,13 +29,21 @@ SOURCES += \
         mainwindow.cpp \
     cell.cpp \
     gameobject.cpp \
-    gamefield.cpp
+    gamefield.cpp \
+    resource.cpp \
+    damager.cpp \
+    healthr.cpp \
+    expr.cpp
 
 HEADERS += \
         mainwindow.h \
     cell.h \
     gameobject.h \
-    gamefield.h
+    gamefield.h \
+    resource.h \
+    damager.h \
+    healthr.h \
+    expr.h
 
 FORMS += \
         mainwindow.ui
