@@ -2,9 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QGraphicsScene>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsItem>
+#include "gamefield.h"
 
 namespace Ui {
 class MainWindow;

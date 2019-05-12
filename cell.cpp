@@ -1,7 +1,7 @@
 #include "cell.h"
 
-Cell::Cell(const QString &Name, int Width, int Height, const QPixmap &pixmap, GameObject *MyObj, QGraphicsItem *parent)
-    :GameObject(Name, Width, Height, pixmap, parent), my_obj(MyObj)
+Cell::Cell(int Width, int Height, const QPixmap &pixmap, GameObject *MyObj, QObject *parent)
+    :GameObject("Cell", Width, Height, pixmap, parent), my_obj(MyObj)
 {
 }
 
