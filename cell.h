@@ -1,15 +1,20 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include <QLabel>
-#include <QObject>
+#include "gameobject.h"
 
+// ячейка, плитка игрового поля
 
-class Cell: public QLabel
+class Cell: public GameObject
 {
     Q_OBJECT
+private:
+    GameObject *my_obj;
 public:
-    explicit Cell(QWidget *parent = nullptr);
+    Cell(const QString &Name, int Width, int Height, const QPixmap &pixmap, GameObject *MyObj = nullptr, QGraphicsItem *parent = nullptr);
+    void setMyObject(GameObject *MyObj);
+    GameObject* MyObject() const;
+
     ~Cell();
 };
 

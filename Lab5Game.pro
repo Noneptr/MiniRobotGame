@@ -27,11 +27,13 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    cell.cpp
+    cell.cpp \
+    gameobject.cpp
 
 HEADERS += \
         mainwindow.h \
-    cell.h
+    cell.h \
+    gameobject.h
 
 FORMS += \
         mainwindow.ui
