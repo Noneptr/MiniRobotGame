@@ -7,12 +7,15 @@ class GameUnit: public GameObject
 {
     Q_OBJECT
 protected:
+    QString _name;
     int _damage;
     int _health;
     int _exp;
 public:
     GameUnit(const QString &Name, int Damage, int Health, int Exp, int Width, int Height, const QPixmap &pixmap, QObject *parent = nullptr);
 
+    void setName(const QString &n);
+    QString name() const;
     virtual void setDamage(int d);
     int damage() const;
     virtual void setHealth(int h);

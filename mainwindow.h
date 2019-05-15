@@ -3,6 +3,9 @@
 
 #include <QMainWindow>
 #include "gamefield.h"
+#include "healther.h"
+#include "damager.h"
+#include "exper.h"
 
 namespace Ui {
 class MainWindow;

@@ -11,7 +11,7 @@ class Cell: public GameObject
 private:
     GameUnit *my_obj;
 public:
-    Cell(int Width, int Height, const QPixmap &pixmap, GameObject *MyObj = nullptr, QObject *parent = nullptr);
+    Cell(int Width, int Height, const QPixmap &pixmap, GameUnit *MyObj = nullptr, QObject *parent = nullptr);
     void setMyObject(GameUnit *MyObj);
     GameUnit *MyObject() const;
 

@@ -16,7 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsView->setGeometry(0, 0, 702, 502);
     QGraphicsScene *scene = new GameField(ui->graphicsView->x() - 1, ui->graphicsView->y() - 1,
                                           ui->graphicsView->width(), ui->graphicsView->height(), this);
+
     ui->graphicsView->setScene(scene);
+
 }
 
 MainWindow::~MainWindow()

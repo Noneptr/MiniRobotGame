@@ -30,14 +30,20 @@ SOURCES += \
     cell.cpp \
     gameobject.cpp \
     gamefield.cpp \
-    gameunit.cpp
+    gameunit.cpp \
+    healther.cpp \
+    damager.cpp \
+    exper.cpp
 
 HEADERS += \
         mainwindow.h \
     cell.h \
     gameobject.h \
     gamefield.h \
-    gameunit.h
+    gameunit.h \
+    healther.h \
+    damager.h \
+    exper.h
 
 FORMS += \
         mainwindow.ui

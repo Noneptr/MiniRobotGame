@@ -1,22 +1,10 @@
 #include "gameobject.h"
 
-GameObject::GameObject(const QString &Name, int Width, int Height, const QPixmap &pixmap, QObject *parent)
-    :QGraphicsPixmapItem(pixmap), QObject(parent), _name(Name)
+GameObject::GameObject(int Width, int Height, const QPixmap &pixmap, QObject *parent)
+    :QGraphicsPixmapItem(pixmap), QObject(parent)
 {
     setWidth(Width);
     setHeight(Height);
-}
-
-
-void GameObject::setName(const QString &n)
-{
-    _name = n;
-}
-
-
-QString GameObject::name() const
-{
-    return _name;
 }
 
 

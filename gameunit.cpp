@@ -1,8 +1,19 @@
 #include "gameunit.h"
 
 GameUnit::GameUnit(const QString &Name, int Damage, int Health, int Exp, int Width, int Height, const QPixmap &pixmap, QObject *parent)
-    :GameObject(Name, Width, Height, pixmap, parent), _damage(Damage), _health(Health), _exp(Exp)
+    :GameObject(Width, Height, pixmap, parent), _name(Name), _damage(Damage), _health(Health), _exp(Exp)
 {
+}
+
+void GameUnit::setName(const QString &n)
+{
+    _name = n;
+}
+
+
+QString GameUnit::name() const
+{
+    return _name;
 }
 
 
