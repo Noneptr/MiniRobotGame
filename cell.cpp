@@ -5,11 +5,13 @@ Cell::Cell(int Width, int Height, const QPixmap &pixmap, GameObject *MyObj, QObj
 {
 }
 
-void Cell::setMyObject(GameObject *MyObj)
+void Cell::setMyObject(GameUnit *MyObj)
 {
     my_obj = MyObj;
 }
-GameObject* Cell::MyObject() const
+
+
+GameUnit* Cell::MyObject() const
 {
     return my_obj;
 }

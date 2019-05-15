@@ -4,9 +4,6 @@
 #include <QObject>
 #include <QGraphicsScene>
 #include "cell.h"
-#include "healthr.h"
-#include "damager.h"
-#include "expr.h"
 
 class GameField : public QGraphicsScene
 {

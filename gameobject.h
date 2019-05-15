@@ -10,7 +10,6 @@ enum GameObjectError {SizeError};
 class GameObject : public QGraphicsPixmapItem, public QObject
 {
     Q_OBJECT
-// нужны ли здесь dmg, hp, exp?
 private:
     QString _name;
     int _width, _height;
