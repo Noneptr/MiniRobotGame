@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent) :
                                           ui->graphicsView->width(), ui->graphicsView->height(), this);
 
     ui->graphicsView->setScene(scene);
-
 }
 
 MainWindow::~MainWindow()
