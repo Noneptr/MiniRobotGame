@@ -16,6 +16,12 @@ GameField::GameField(qreal x, qreal y, qreal width, qreal height, QObject *paren
             this->addItem(cell);
             cell->setPos(j * size_cell, i * size_cell);
         }
-        cells.push_back(v);
+        _cells.push_back(v);
     }
+}
+
+
+QVector<QVector<Cell*>>* GameField::cells()
+{
+    return &_cells;
 }

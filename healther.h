@@ -10,6 +10,7 @@ class Healther: public GameUnit
     Q_OBJECT
 public:
     Healther(QObject *parent = nullptr);
+    void setHealth(int h);
 };
 
 #endif // HEALTHER_H

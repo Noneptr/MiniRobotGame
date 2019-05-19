@@ -3,10 +3,12 @@
 
 #include "gameunit.h"
 #include "gamefield.h"
+#include <QDebug>
+#include <iostream>
 
 //класс - интерфейс для создания роботов
 
-enum RobotDirect {up, down, left, right};
+enum RobotDirect {RDUp, RDDown, RDLeft, RDRight};
 enum RobotError {NotRightGameFieldError, NotPointGameFieldError};
 
 class Robot: public GameUnit

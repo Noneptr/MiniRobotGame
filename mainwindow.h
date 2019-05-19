@@ -6,6 +6,7 @@
 #include "healther.h"
 #include "damager.h"
 #include "exper.h"
+#include "robot.h"
 
 namespace Ui {
 class MainWindow;

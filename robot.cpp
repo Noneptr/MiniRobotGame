@@ -90,7 +90,7 @@ QVector<QVector<Cell*>>* Robot::gameField() const
 void Robot::move(RobotDirect direct)
 {
     int d = (*_gamefield)[0][0]->width();
-    if (direct == up)
+    if (direct == RDUp)
     {
         int i = posI() - 1;
         setPosI(i);
@@ -98,15 +98,15 @@ void Robot::move(RobotDirect direct)
         {
             if ((*_gamefield)[posI()][posJ()]->MyObject() == nullptr)
             {
-                (*_gamefield)[posI() - 1][posJ()]->setMyObject(nullptr);
+                (*_gamefield)[posI() + 1][posJ()]->setMyObject(nullptr);
                 (*_gamefield)[posI()][posJ()]->setMyObject(this);
                 this->setPos(x(), y() - d);
             }
         }
     }
-    else if (direct == down)
+    else if (direct == RDDown)
     {
-        int i = posI() - 1;
+        int i = posI() + 1;
         setPosI(i);
         if (i == posI())
         {
@@ -114,7 +114,35 @@ void Robot::move(RobotDirect direct)
             {
                 (*_gamefield)[posI() - 1][posJ()]->setMyObject(nullptr);
                 (*_gamefield)[posI()][posJ()]->setMyObject(this);
-                this->setPos(x(), y() - d);
+                this->setPos(x(), y() + d);
+            }
+        }
+    }
+    else if (direct == RDLeft)
+    {
+        int j = posJ() - 1;
+        setPosJ(j);
+        if (j == posJ())
+        {
+            if ((*_gamefield)[posI()][posJ()]->MyObject() == nullptr)
+            {
+                (*_gamefield)[posI()][posJ() + 1]->setMyObject(nullptr);
+                (*_gamefield)[posI()][posJ()]->setMyObject(this);
+                this->setPos(x() - d, y());
+            }
+        }
+    }
+    else if (direct == RDRight)
+    {
+        int j = posJ() + 1;
+        setPosJ(j);
+        if (j == posJ())
+        {
+            if ((*_gamefield)[posI()][posJ()]->MyObject() == nullptr)
+            {
+                (*_gamefield)[posI()][posJ() - 1]->setMyObject(nullptr);
+                (*_gamefield)[posI()][posJ()]->setMyObject(this);
+                this->setPos(x() + d, y());
             }
         }
     }

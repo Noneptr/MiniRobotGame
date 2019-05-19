@@ -10,6 +10,7 @@ class Exper: public GameUnit
     Q_OBJECT
 public:
     Exper(QObject *parent = nullptr);
+    void setExp(int e);
 };
 
 #endif // EXPER_H

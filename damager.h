@@ -10,6 +10,7 @@ class Damager: public GameUnit
     Q_OBJECT
 public:
     Damager(QObject *parent = nullptr);
+    void setDamage(int d);
 };
 
 #endif // DAMAGER_H
