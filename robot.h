@@ -2,11 +2,11 @@
 #define ROBOT_H
 
 #include "gameunit.h"
-#include "gamefield.h"
+#include "cell.h"
 
 //класс - интерфейс для создания роботов
 
-enum RobotDirect {RDUp, RDDown, RDLeft, RDRight};
+enum RobotDirect {RDDown, RDUp, RDLeft, RDRight};
 enum RobotError {NotRightGameFieldError, NotPointGameFieldError};
 
 class Robot: public GameUnit
@@ -14,10 +14,14 @@ class Robot: public GameUnit
     Q_OBJECT
 protected:
     int _ii, _jj; // индексы текущей клетки
+    RobotDirect _direct;  // направление робота
     QVector<QVector<Cell *>> *_gamefield = nullptr; // указатель на игровое поле
+    QString _filedir;
+
 public:
     Robot(const QString &Name, int Damage, int Health, int Exp,
-          int Width, int Height, const QPixmap &pixmap, QVector<QVector<Cell*>>* gamefield,
+          int Width, int Height, const QString &filedir,
+          QVector<QVector<Cell*>>* gamefield,
           int PosI = 0,int PosJ = 0, QObject *parent = nullptr);
 
     void setGameField(QVector<QVector<Cell*>>* gamefield);
@@ -28,7 +32,15 @@ public:
     void setPosJ(int p);
     int posJ() const;
 
-    virtual void move(RobotDirect direct);
+    QString fileDir() const;
+    void setFileDir(const QString &filedir);
+
+    RobotDirect direct() const;
+    void setDirect(RobotDirect d);
+
+    virtual void move();
+
+    virtual void collect();
 
     virtual ~Robot();
 };

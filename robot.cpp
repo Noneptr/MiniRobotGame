@@ -1,13 +1,16 @@
 #include "robot.h"
 
 Robot::Robot(const QString &Name, int Damage, int Health, int Exp,
-             int Width, int Height, const QPixmap &pixmap, QVector<QVector<Cell *> > *gamefield,
+             int Width, int Height, const QString &filedir,
+             QVector<QVector<Cell *>> *gamefield,
              int PosI, int PosJ, QObject *parent)
-    :GameUnit(Name, Damage, Health, Exp, Width, Height, pixmap, parent)
+    :GameUnit(Name, Damage, Health, Exp, Width, Height, QPixmap(), parent), _ii(0), _jj(0),
+      _direct(RDDown), _filedir(filedir)
 {
     setGameField(gamefield);
     setPosI(PosI);
     setPosJ(PosJ);
+    setPixmap(fileDir() + name() + "/state/" + QString::number(direct())+ ".png");
 }
 
 
@@ -68,6 +71,18 @@ int Robot::posJ() const
 }
 
 
+QString Robot::fileDir() const
+{
+    return _filedir;
+}
+
+
+void Robot::setFileDir(const QString &filedir)
+{
+    _filedir = filedir;
+}
+
+
 void Robot::setGameField(QVector<QVector<Cell*>>* gamefield)
 {
     if (gamefield != nullptr)
@@ -101,24 +116,43 @@ QVector<QVector<Cell*>>* Robot::gameField() const
 }
 
 
-void Robot::move(RobotDirect direct)
+RobotDirect Robot::direct() const
 {
-    if (direct == RDUp)
+    return _direct;
+}
+
+
+void Robot::setDirect(RobotDirect d)
+{
+    _direct = d;
+}
+
+
+void Robot::move()
+{
+    if (direct() == RDUp)
     {
         setPosI(posI() - 1);
     }
-    else if (direct == RDDown)
+    else if (direct() == RDDown)
     {
         setPosI(posI() + 1);
     }
-    else if (direct == RDLeft)
+    else if (direct() == RDLeft)
     {
         setPosJ(posJ() - 1);
     }
-    else if (direct == RDRight)
+    else if (direct() == RDRight)
     {
         setPosJ(posJ() + 1);
     }
+
+    setPixmap(QPixmap(fileDir() + name() + "/state/" + QString::number(direct())+ ".png"));
+}
+
+
+void Robot::collect()
+{
 }
 
 

@@ -14,34 +14,42 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setMinimumWidth(win_w);
     this->setMinimumHeight(win_h);
     ui->graphicsView->setGeometry(0, 0, 702, 502);
-    GameField *scene = new GameField(ui->graphicsView->x() - 1, ui->graphicsView->y() - 1,
+    scene = new GameField(ui->graphicsView->x() - 1, ui->graphicsView->y() - 1,
                                           ui->graphicsView->width(), ui->graphicsView->height(), this);
 
     ui->graphicsView->setScene(scene);
 
-    QGraphicsPixmapItem *robot = new Robot("robot", 1, 1, 1, 50, 50,
-    QPixmap(":/rec/robot1/state/0.png"), scene->cells(), 0, 0, this);
-    scene->addItem(robot);
-    static_cast<Robot*>(robot)->move(RDRight);
-    static_cast<Robot*>(robot)->move(RDRight);
-    static_cast<Robot*>(robot)->move(RDRight);
-    static_cast<Robot*>(robot)->move(RDRight);
-    static_cast<Robot*>(robot)->move(RDDown);
-    static_cast<Robot*>(robot)->move(RDDown);
-    static_cast<Robot*>(robot)->move(RDDown);
-    static_cast<Robot*>(robot)->move(RDDown);
-    static_cast<Robot*>(robot)->move(RDLeft);
-    static_cast<Robot*>(robot)->move(RDLeft);
-    static_cast<Robot*>(robot)->move(RDLeft);
-    static_cast<Robot*>(robot)->move(RDLeft);
-    static_cast<Robot*>(robot)->move(RDLeft);
-    static_cast<Robot*>(robot)->move(RDUp);
-    static_cast<Robot*>(robot)->move(RDUp);
-    static_cast<Robot*>(robot)->move(RDUp);
-    static_cast<Robot*>(robot)->move(RDUp);
+    QGraphicsPixmapItem *r = new Robot("robot1", 1, 1, 1, 50, 50,
+    ":/rec/", scene->cells(), 0, 0, this);
+    scene->addItem(r);
+    robot = static_cast<Robot*>(r);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    robot->setDirect(RDLeft);
+    robot->move();
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    robot->setDirect(RDDown);
+    robot->move();
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    robot->setDirect(RDUp);
+    robot->move();
+}
+
+void MainWindow::on_pushButton_4_clicked()
+{
+    robot->setDirect(RDRight);
+    robot->move();
 }
