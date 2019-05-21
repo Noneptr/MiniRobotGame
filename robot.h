@@ -3,8 +3,6 @@
 
 #include "gameunit.h"
 #include "gamefield.h"
-#include <QDebug>
-#include <iostream>
 
 //класс - интерфейс для создания роботов
 
