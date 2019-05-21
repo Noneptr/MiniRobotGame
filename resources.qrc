@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/rec">
+        <file>resources/cell.png</file>
+        <file>resources/dmg.png</file>
+        <file>resources/exp.png</file>
+        <file>resources/hp.png</file>
+        <file>robot1/alt_attack/0.png</file>
+        <file>robot1/alt_attack/1.png</file>
+        <file>robot1/alt_attack/2.png</file>
+        <file>robot1/alt_attack/3.png</file>
+        <file>robot1/attack/0.png</file>
+        <file>robot1/attack/1.png</file>
+        <file>robot1/attack/2.png</file>
+        <file>robot1/attack/3.png</file>
+        <file>robot1/hpdown/0.png</file>
+        <file>robot1/hpdown/1.png</file>
+        <file>robot1/hpdown/2.png</file>
+        <file>robot1/hpdown/3.png</file>
+        <file>robot1/state/0.png</file>
+        <file>robot1/state/1.png</file>
+        <file>robot1/state/2.png</file>
+        <file>robot1/state/3.png</file>
+    </qresource>
+</RCC>

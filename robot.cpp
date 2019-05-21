@@ -15,9 +15,16 @@ void Robot::setPosI(int p)
 {
     if (_gamefield != nullptr)
     {
-        if ((p >= 0) && (p <= _gamefield->size()))
+        if ((p >= 0) && (p < _gamefield->size()))
         {
-            _ii = p;
+            if ((*_gamefield)[p][posJ()]->MyObject() == nullptr)
+            {
+                (*_gamefield)[_ii][posJ()]->setMyObject(nullptr);
+                _ii = p;
+                (*_gamefield)[_ii][posJ()]->setMyObject(this);
+                int d = (*_gamefield)[0][0]->width();
+                this->setPos(x(), _ii * d);
+            }
         }
     }
     else
@@ -36,9 +43,16 @@ int Robot::posI() const
 void Robot::setPosJ(int p)
 {    if (_gamefield != nullptr)
     {
-        if ((p >= 0) && (p <= (*_gamefield)[0].size()))
+        if ((p >= 0) && (p < (*_gamefield)[0].size()))
         {
-            _jj = p;
+            if ((*_gamefield)[posI()][p]->MyObject() == nullptr)
+            {
+                (*_gamefield)[posI()][_jj]->setMyObject(nullptr);
+                _jj = p;
+                (*_gamefield)[posI()][_jj]->setMyObject(this);
+                int d = (*_gamefield)[0][0]->width();
+                this->setPos(_jj * d, y());
+            }
         }
     }
     else
@@ -89,62 +103,21 @@ QVector<QVector<Cell*>>* Robot::gameField() const
 
 void Robot::move(RobotDirect direct)
 {
-    int d = (*_gamefield)[0][0]->width();
     if (direct == RDUp)
     {
-        int i = posI() - 1;
-        setPosI(i);
-        if (i == posI())
-        {
-            if ((*_gamefield)[posI()][posJ()]->MyObject() == nullptr)
-            {
-                (*_gamefield)[posI() + 1][posJ()]->setMyObject(nullptr);
-                (*_gamefield)[posI()][posJ()]->setMyObject(this);
-                this->setPos(x(), y() - d);
-            }
-        }
+        setPosI(posI() - 1);
     }
     else if (direct == RDDown)
     {
-        int i = posI() + 1;
-        setPosI(i);
-        if (i == posI())
-        {
-            if ((*_gamefield)[posI()][posJ()]->MyObject() == nullptr)
-            {
-                (*_gamefield)[posI() - 1][posJ()]->setMyObject(nullptr);
-                (*_gamefield)[posI()][posJ()]->setMyObject(this);
-                this->setPos(x(), y() + d);
-            }
-        }
+        setPosI(posI() + 1);
     }
     else if (direct == RDLeft)
     {
-        int j = posJ() - 1;
-        setPosJ(j);
-        if (j == posJ())
-        {
-            if ((*_gamefield)[posI()][posJ()]->MyObject() == nullptr)
-            {
-                (*_gamefield)[posI()][posJ() + 1]->setMyObject(nullptr);
-                (*_gamefield)[posI()][posJ()]->setMyObject(this);
-                this->setPos(x() - d, y());
-            }
-        }
+        setPosJ(posJ() - 1);
     }
     else if (direct == RDRight)
     {
-        int j = posJ() + 1;
-        setPosJ(j);
-        if (j == posJ())
-        {
-            if ((*_gamefield)[posI()][posJ()]->MyObject() == nullptr)
-            {
-                (*_gamefield)[posI()][posJ() - 1]->setMyObject(nullptr);
-                (*_gamefield)[posI()][posJ()]->setMyObject(this);
-                this->setPos(x() + d, y());
-            }
-        }
+        setPosJ(posJ() + 1);
     }
 }
 

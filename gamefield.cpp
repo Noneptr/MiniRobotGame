@@ -11,7 +11,7 @@ GameField::GameField(qreal x, qreal y, qreal width, qreal height, QObject *paren
         QVector<Cell*> v;
         for (int j = 0; j < n; j++)
         {
-            Cell* cell = new Cell(size_cell, size_cell, QPixmap(":/recs/resources/cell.png"), nullptr, this);
+            Cell* cell = new Cell(size_cell, size_cell, QPixmap(":/rec/resources/cell.png"), nullptr, this);
             v.push_back(cell);
             this->addItem(cell);
             cell->setPos(j * size_cell, i * size_cell);

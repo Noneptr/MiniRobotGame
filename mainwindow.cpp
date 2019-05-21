@@ -20,9 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsView->setScene(scene);
 
     QGraphicsPixmapItem *robot = new Robot("robot", 1, 1, 1, 50, 50,
-    QPixmap(":/recs/robot1/robot1down.png"), scene->cells(), 0, 0, this);
+    QPixmap(":/rec/robot1/state/0.png"), scene->cells(), 0, 0, this);
     scene->addItem(robot);
-    robot->setPos(0, 0);
     static_cast<Robot*>(robot)->move(RDRight);
     static_cast<Robot*>(robot)->move(RDRight);
     static_cast<Robot*>(robot)->move(RDRight);
@@ -35,6 +34,10 @@ MainWindow::MainWindow(QWidget *parent) :
     static_cast<Robot*>(robot)->move(RDLeft);
     static_cast<Robot*>(robot)->move(RDLeft);
     static_cast<Robot*>(robot)->move(RDLeft);
+    static_cast<Robot*>(robot)->move(RDLeft);
+    static_cast<Robot*>(robot)->move(RDUp);
+    static_cast<Robot*>(robot)->move(RDUp);
+    static_cast<Robot*>(robot)->move(RDUp);
     static_cast<Robot*>(robot)->move(RDUp);
 }
 

@@ -4,22 +4,6 @@
         <file>resources/dmg.png</file>
         <file>resources/exp.png</file>
         <file>resources/hp.png</file>
-        <file>robot1/robot1down.png</file>
-        <file>robot1/robot1downdmg.png</file>
-        <file>robot1/robot1downdmgb.png</file>
-        <file>robot1/robot1downhpd.png</file>
-        <file>robot1/robot1left.png</file>
-        <file>robot1/robot1leftdmg.png</file>
-        <file>robot1/robot1leftdmgb.png</file>
-        <file>robot1/robot1lefthpd.png</file>
-        <file>robot1/robot1right.png</file>
-        <file>robot1/robot1rightdmg.png</file>
-        <file>robot1/robot1rightdmgb.png</file>
-        <file>robot1/robot1righthpd.png</file>
-        <file>robot1/robot1up.png</file>
-        <file>robot1/robot1updmg.png</file>
-        <file>robot1/robot1updmgb.png</file>
-        <file>robot1/robot1uphpd.png</file>
         <file>robot2/robot2down.png</file>
         <file>robot2/robot2downdmg.png</file>
         <file>robot2/robot2downdmgb.png</file>
@@ -52,5 +36,17 @@
         <file>robot3/robot3updmg.png</file>
         <file>robot3/robot3updmgb.png</file>
         <file>robot3/robot3uphpd.png</file>
+        <file>robot1/state/0.png</file>
+        <file>robot1/state/1.png</file>
+        <file>robot1/state/2.png</file>
+        <file>robot1/state/3.png</file>
+        <file>robot1/hpdown/0.png</file>
+        <file>robot1/hpdown/1.png</file>
+        <file>robot1/hpdown/2.png</file>
+        <file>robot1/hpdown/3.png</file>
+        <file>robot1/attack/0.png</file>
+        <file>robot1/attack/1.png</file>
+        <file>robot1/attack/2.png</file>
+        <file>robot1/attack/3.png</file>
     </qresource>
 </RCC>
