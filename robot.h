@@ -3,6 +3,7 @@
 
 #include "gameunit.h"
 #include "cell.h"
+#include <iostream>
 
 //класс - интерфейс для создания роботов
 
@@ -17,6 +18,10 @@ protected:
     RobotDirect _direct;  // направление робота
     QVector<QVector<Cell *>> *_gamefield = nullptr; // указатель на игровое поле
     QString _filedir;
+
+protected:
+    bool collection(int index, RobotDirect d);
+    bool hit(int index, RobotDirect d);
 
 public:
     Robot(const QString &Name, int Damage, int Health, int Exp,
@@ -41,6 +46,8 @@ public:
     virtual void move();
 
     virtual void collect();
+
+    virtual void attack();
 
     virtual ~Robot();
 };

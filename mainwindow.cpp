@@ -23,6 +23,27 @@ MainWindow::MainWindow(QWidget *parent) :
     ":/rec/", scene->cells(), 0, 0, this);
     scene->addItem(r);
     robot = static_cast<Robot*>(r);
+
+    QGraphicsPixmapItem *h = new Healther(this);
+    Healther *hp = static_cast<Healther*>(h);
+    scene->addItem(h);
+    (*scene->cells())[4][4]->setMyObject(hp);
+    hp->setPos(200, 200);
+    connect(hp, &Healther::deaded, scene, &QGraphicsScene::removeItem);
+
+    QGraphicsPixmapItem *d = new Damager(this);
+    Damager *dmg = static_cast<Damager*>(d);
+    scene->addItem(d);
+    (*scene->cells())[7][8]->setMyObject(dmg);
+    dmg->setPos(400, 350);
+    connect(dmg, &Damager::deaded, scene, &QGraphicsScene::removeItem);
+
+    QGraphicsPixmapItem *e = new Exper(this);
+    Exper *ex = static_cast<Exper*>(e);
+    scene->addItem(e);
+    (*scene->cells())[0][13]->setMyObject(ex);
+    ex->setPos(650, 0);
+    connect(ex, &Exper::deaded, scene, &QGraphicsScene::removeItem);
 }
 
 MainWindow::~MainWindow()
@@ -52,4 +73,9 @@ void MainWindow::on_pushButton_4_clicked()
 {
     robot->setDirect(RDRight);
     robot->move();
+}
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    robot->collect();
 }

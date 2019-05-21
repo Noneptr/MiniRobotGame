@@ -24,6 +24,8 @@ public:
     int exp() const;
 
     virtual ~GameUnit();
+signals:
+    void deaded(QGraphicsItem*);
 };
 
 #endif // GAMEUNIT_H

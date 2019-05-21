@@ -11,6 +11,7 @@ class Healther: public GameUnit
 public:
     Healther(QObject *parent = nullptr);
     void setHealth(int h);
+    ~Healther();
 };
 
 #endif // HEALTHER_H

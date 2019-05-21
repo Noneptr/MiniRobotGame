@@ -11,6 +11,13 @@ Robot::Robot(const QString &Name, int Damage, int Health, int Exp,
     setPosI(PosI);
     setPosJ(PosJ);
     setPixmap(fileDir() + name() + "/state/" + QString::number(direct())+ ".png");
+
+    std::cout << std::endl;
+    std::cout << "Robot: " << std::endl;
+    std::cout << "health: " << health() << std::endl;
+    std::cout << "damage: " << damage() << std::endl;
+    std::cout << "exp: " << exp() << std::endl;
+    std::cout << std::endl;
 }
 
 
@@ -151,8 +158,93 @@ void Robot::move()
 }
 
 
+bool Robot::collection(int index, RobotDirect d)
+{
+    QVector<QString> recs = {"healther", "exper", "damager"};
+    Cell* cell;
+
+
+    if ((d == RDUp) || (d == RDDown))
+    {
+        cell = (*_gamefield)[index][posJ()];
+    }
+    else
+    {
+        cell = (*_gamefield)[posI()][index];
+    }
+
+
+    GameUnit *obj = cell->MyObject();
+    if (obj != nullptr)
+    {
+        for (QString &r : recs)
+        {
+            if (r == obj->name())
+            {
+                setHealth(health() + obj->health());
+                setDamage(damage() + obj->damage());
+                setExp(exp() + obj->exp());
+                setPixmap(QPixmap(fileDir() + name() + "/alt_attack/" + QString::number(d) + ".png"));
+                cell->setMyObject(nullptr);
+                emit obj->deaded(obj);
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool Robot::hit(int index, RobotDirect d)
+{
+    return false;
+}
+
+
 void Robot::collect()
 {
+    int i1 = posI() - 1;
+    int i2 = posI() + 1;
+    int j1 = posJ() - 1;
+    int j2 = posJ() + 1;
+    bool flag = false;
+
+
+    if ((i1 >= 0) && (!flag))
+    {
+        flag = collection(i1, RDUp);
+    }
+
+
+    if ((i2 < _gamefield->size())  && (!flag))
+    {
+        flag = collection(i2, RDDown);
+    }
+
+
+    if ((j1 >= 0) && (!flag))
+    {
+        flag = collection(j1, RDLeft);
+    }
+
+
+    if ((j2 < (*_gamefield)[0].size()) && (!flag))
+    {
+        flag = collection(j2, RDRight);
+    }
+
+    std::cout << std::endl;
+    std::cout << "Robot collect: " << std::endl;
+    std::cout << "health: " << health() << std::endl;
+    std::cout << "damage: " << damage() << std::endl;
+    std::cout << "exp: " << exp() << std::endl;
+    std::cout << std::endl;
+}
+
+
+void Robot::attack()
+{
+
 }
 
 
