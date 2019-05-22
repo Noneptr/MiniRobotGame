@@ -57,8 +57,6 @@ public:
 
     virtual void attack(); // атаковать противника
 
-    virtual void act();
-
     virtual ~Robot();
 };
 

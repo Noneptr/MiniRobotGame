@@ -26,6 +26,7 @@ public:
     virtual ~GameUnit();
 signals:
     void deaded(QGraphicsItem*);
+    void attacked();
 };
 
 #endif // GAMEUNIT_H

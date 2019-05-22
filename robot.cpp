@@ -217,6 +217,33 @@ bool Robot::collection(int index, RobotDirect d)
 
 bool Robot::hit(int index, RobotDirect d)
 {
+    Cell* cell;
+
+
+    if ((d == RDUp) || (d == RDDown))
+    {
+        cell = (*_gamefield)[index][posJ()];
+    }
+    else
+    {
+        cell = (*_gamefield)[posI()][index];
+    }
+
+
+    GameUnit *obj = cell->MyObject();
+    if (obj != nullptr)
+    {
+        if ((obj->name() != "healther") && (obj->name() != "damager")
+                && (obj->name() != "exper") && (obj->name() != name()))
+        {
+            Robot * robot = static_cast<Robot*>(obj);
+            robot->setPixmap(QPixmap(robot->fileDir() + robot->name() + "/hpdown/"
+                                     + QString::number(robot->direct()) + ".png"));
+            robot->setHealth(robot->health() - damage());
+            return true;
+        }
+    }
+
     return false;
 }
 
@@ -295,7 +322,7 @@ void Robot::attack()
     }
 
     std::cout << std::endl;
-    std::cout << "Robot collect: " << std::endl;
+    std::cout << "Robot attack: " << std::endl;
     std::cout << "health: " << health() << std::endl;
     std::cout << "damage: " << damage() << std::endl;
     std::cout << "exp: " << exp() << std::endl;
