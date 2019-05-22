@@ -90,6 +90,26 @@ void Robot::setFileDir(const QString &filedir)
 }
 
 
+//void Robot::setNameResources(const QVector<QString> &nameRess)
+//{
+//    if (nameRess.size() > 0)
+//    {
+//        _name_ress = nameRess;
+//    }
+//    else
+//    {
+//        throw QVectorSizeError;
+//    }
+//}
+
+
+
+//QVector<QString> Robot::nameResources() const
+//{
+//    return _name_ress;
+//}
+
+
 void Robot::setGameField(QVector<QVector<Cell*>>* gamefield)
 {
     if (gamefield != nullptr)
@@ -244,7 +264,42 @@ void Robot::collect()
 
 void Robot::attack()
 {
+    int i1 = posI() - 1;
+    int i2 = posI() + 1;
+    int j1 = posJ() - 1;
+    int j2 = posJ() + 1;
+    bool flag = false;
 
+
+    if ((i1 >= 0) && (!flag))
+    {
+        flag = hit(i1, RDUp);
+    }
+
+
+    if ((i2 < _gamefield->size())  && (!flag))
+    {
+        flag = hit(i2, RDDown);
+    }
+
+
+    if ((j1 >= 0) && (!flag))
+    {
+        flag = hit(j1, RDLeft);
+    }
+
+
+    if ((j2 < (*_gamefield)[0].size()) && (!flag))
+    {
+        flag = hit(j2, RDRight);
+    }
+
+    std::cout << std::endl;
+    std::cout << "Robot collect: " << std::endl;
+    std::cout << "health: " << health() << std::endl;
+    std::cout << "damage: " << damage() << std::endl;
+    std::cout << "exp: " << exp() << std::endl;
+    std::cout << std::endl;
 }
 
 

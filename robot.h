@@ -8,7 +8,10 @@
 //класс - интерфейс для создания роботов
 
 enum RobotDirect {RDDown, RDUp, RDLeft, RDRight};
-enum RobotError {NotRightGameFieldError, NotPointGameFieldError};
+enum RobotError {NotRightGameFieldError, NotPointGameFieldError, QVectorSizeError};
+
+class Robot;
+using RobotAct = void (Robot::*)();
 
 class Robot: public GameUnit
 {
@@ -19,9 +22,11 @@ protected:
     QVector<QVector<Cell *>> *_gamefield = nullptr; // указатель на игровое поле
     QString _filedir;
 
+//    QVector<QString> _name_ress = {"healther", "damager", "exper"}; // названия ресурсов
+
 protected:
-    bool collection(int index, RobotDirect d);
-    bool hit(int index, RobotDirect d);
+    virtual bool collection(int index, RobotDirect d);
+    virtual bool hit(int index, RobotDirect d);
 
 public:
     Robot(const QString &Name, int Damage, int Health, int Exp,
@@ -40,14 +45,19 @@ public:
     QString fileDir() const;
     void setFileDir(const QString &filedir);
 
+    void setNameResources(const QVector<QString> &nameRess);
+    QVector<QString> nameResources() const;
+
     RobotDirect direct() const;
     void setDirect(RobotDirect d);
 
-    virtual void move();
+    virtual void move(); // сделать шаг
 
-    virtual void collect();
+    virtual void collect(); // собрать ресурс
 
-    virtual void attack();
+    virtual void attack(); // атаковать противника
+
+    virtual void act();
 
     virtual ~Robot();
 };
