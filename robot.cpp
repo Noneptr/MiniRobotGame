@@ -11,19 +11,14 @@ Robot::Robot(const QString &Name, int Damage, int Health, int Exp,
     setPosI(PosI);
     setPosJ(PosJ);
     setPixmap(fileDir() + name() + "/state/" + QString::number(direct())+ ".png");
-    changeDamageBar();
-    changeHealthBar();
-    changeExpBar();
+
     connect(this, &Robot::changedHealth, this, &Robot::changeHealthBar);
     connect(this, &Robot::changedDamage, this, &Robot::changeDamageBar);
     connect(this, &Robot::changedExp, this, &Robot::changeExpBar);
 
-    std::cout << std::endl;
-    std::cout << "Robot: " << std::endl;
-    std::cout << "health: " << health() << std::endl;
-    std::cout << "damage: " << damage() << std::endl;
-    std::cout << "exp: " << exp() << std::endl;
-    std::cout << std::endl;
+    setDamage(Damage);
+    setHealth(Health);
+    setExp(Exp);
 }
 
 
@@ -231,12 +226,6 @@ bool Robot::hit(int index, RobotDirect d)
             robot->setPixmap(QPixmap(robot->fileDir() + robot->name() + "/hpdown/"
                                      + QString::number(robot->direct()) + ".png"));
             robot->setHealth(robot->health() - damage());
-            std::cout << std::endl;
-            std::cout << "Robot2 attacked: " << std::endl;
-            std::cout << "health: " << robot->health() << std::endl;
-            std::cout << "damage: " << robot->damage() << std::endl;
-            std::cout << "exp: " << robot->exp() << std::endl;
-            std::cout << std::endl;
             return true;
         }
     }
@@ -276,13 +265,6 @@ void Robot::collect()
     {
         flag = collection(j2, RDRight);
     }
-
-    std::cout << std::endl;
-    std::cout << "Robot collect: " << std::endl;
-    std::cout << "health: " << health() << std::endl;
-    std::cout << "damage: " << damage() << std::endl;
-    std::cout << "exp: " << exp() << std::endl;
-    std::cout << std::endl;
 }
 
 
