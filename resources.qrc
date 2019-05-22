@@ -20,5 +20,37 @@
         <file>robot1/state/1.png</file>
         <file>robot1/state/2.png</file>
         <file>robot1/state/3.png</file>
+        <file>robot2/alt_attack/0.png</file>
+        <file>robot2/alt_attack/1.png</file>
+        <file>robot2/alt_attack/2.png</file>
+        <file>robot2/alt_attack/3.png</file>
+        <file>robot2/attack/0.png</file>
+        <file>robot2/attack/1.png</file>
+        <file>robot2/attack/2.png</file>
+        <file>robot2/attack/3.png</file>
+        <file>robot2/hpdown/0.png</file>
+        <file>robot2/hpdown/1.png</file>
+        <file>robot2/hpdown/2.png</file>
+        <file>robot2/hpdown/3.png</file>
+        <file>robot2/state/0.png</file>
+        <file>robot2/state/1.png</file>
+        <file>robot2/state/2.png</file>
+        <file>robot2/state/3.png</file>
+        <file>robot3/alt_attack/0.png</file>
+        <file>robot3/alt_attack/1.png</file>
+        <file>robot3/alt_attack/2.png</file>
+        <file>robot3/alt_attack/3.png</file>
+        <file>robot3/attack/0.png</file>
+        <file>robot3/attack/1.png</file>
+        <file>robot3/attack/2.png</file>
+        <file>robot3/attack/3.png</file>
+        <file>robot3/hpdown/0.png</file>
+        <file>robot3/hpdown/1.png</file>
+        <file>robot3/hpdown/2.png</file>
+        <file>robot3/hpdown/3.png</file>
+        <file>robot3/state/0.png</file>
+        <file>robot3/state/1.png</file>
+        <file>robot3/state/2.png</file>
+        <file>robot3/state/3.png</file>
     </qresource>
 </RCC>
