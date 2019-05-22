@@ -11,6 +11,12 @@ Robot::Robot(const QString &Name, int Damage, int Health, int Exp,
     setPosI(PosI);
     setPosJ(PosJ);
     setPixmap(fileDir() + name() + "/state/" + QString::number(direct())+ ".png");
+    changeDamageBar();
+    changeHealthBar();
+    changeExpBar();
+    connect(this, &Robot::changedHealth, this, &Robot::changeHealthBar);
+    connect(this, &Robot::changedDamage, this, &Robot::changeDamageBar);
+    connect(this, &Robot::changedExp, this, &Robot::changeExpBar);
 
     std::cout << std::endl;
     std::cout << "Robot: " << std::endl;
@@ -156,6 +162,9 @@ void Robot::move()
     }
 
     setPixmap(QPixmap(fileDir() + name() + "/state/" + QString::number(direct())+ ".png"));
+    changeDamageBar();
+    changeHealthBar();
+    changeExpBar();
 }
 
 
@@ -328,10 +337,15 @@ void Robot::setHealth(int h)
 
     if (_health <= 0)
     {
+        /*полное уничтожение робота*/
+        emit deaded(healthBar());
+        emit deaded(damageBar());
+        emit deaded(expBar());
         emit deaded(this);
+        (*_gamefield)[_ii][_jj]->setMyObject(nullptr);
     }
 
-    emit changeHealth();
+    emit changedHealth();
 }
 
 
@@ -350,7 +364,7 @@ void Robot::setDamage(int d)
         _damage = max_d;
     }
 
-    emit changeDamage();
+    emit changedDamage();
 }
 
 
@@ -365,7 +379,7 @@ void Robot::setExp(int e)
         _exp = e;
     }
 
-    emit changeExp();
+    emit changedExp();
 }
 
 
@@ -395,6 +409,24 @@ void Robot::changeExpBar()
     _exp_bar.setPos(_jj * cwidth + ot, _ii * cwidth + ot );
     _exp_bar.setHtml(QString("<p><font size=\"3\" color=\"yellow\" face=\"Comic Sans\">"
                              + QString::number(exp()) + "</font></p>"));
+}
+
+
+QGraphicsTextItem *Robot::healthBar()
+{
+    return &_health_bar;
+}
+
+
+QGraphicsTextItem *Robot::damageBar()
+{
+    return &_damage_bar;
+}
+
+
+QGraphicsTextItem *Robot::expBar()
+{
+    return &_exp_bar;
 }
 
 

@@ -24,14 +24,18 @@ MainWindow::MainWindow(QWidget *parent) :
     ":/rec/", scene->cells(), 0, 0, this);
     scene->addItem(r);
     robot = static_cast<Robot*>(r);
+    scene->addItem(robot->damageBar());
+    scene->addItem(robot->healthBar());
+    scene->addItem(robot->expBar());
 
-    QGraphicsPixmapItem *r2 = new Robot("robot2", 1, 1, 1, 50, 50,
-                                            ":/rec/", scene->cells(), 0, 0, this);
+    QGraphicsPixmapItem *r2 = new Robot("robot2", 10, 10, 10, 50, 50,
+                                            ":/rec/", scene->cells(), 6, 12, this);
     Robot *rb2 = static_cast<Robot*>(r2);
     scene->addItem(r2);
-    (*scene->cells())[6][12]->setMyObject(rb2);
-    rb2->setPos(600, 300);
     connect(rb2, &Robot::deaded, scene, &QGraphicsScene::removeItem);
+    scene->addItem(rb2->damageBar());
+    scene->addItem(rb2->healthBar());
+    scene->addItem(rb2->expBar());
 
     QGraphicsPixmapItem *h = new Healther(this);
     Healther *hp = static_cast<Healther*>(h);
@@ -54,11 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
     (*scene->cells())[0][13]->setMyObject(ex);
     ex->setPos(650, 0);
     connect(ex, &Exper::deaded, scene, &QGraphicsScene::removeItem);
-
-    QGraphicsTextItem *text = new QGraphicsTextItem();
-    text->setHtml(QString("<p><font size=\"4\" color=\"green\" face=\"Comic Sans\">10</font></p>"));
-//    text->setTextWidth(20);
-    scene->addItem(text);
 }
 
 MainWindow::~MainWindow()

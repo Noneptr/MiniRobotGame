@@ -26,9 +26,9 @@ public:
     virtual ~GameUnit();
 signals:
     void deaded(QGraphicsItem*);
-    void changeHealth();
-    void changeDamage();
-    void changeExp();
+    void changedHealth();
+    void changedDamage();
+    void changedExp();
 };
 
 #endif // GAMEUNIT_H

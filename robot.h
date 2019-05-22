@@ -70,6 +70,10 @@ public:
     void setDamage(int d);
     void setExp(int e);
 
+    QGraphicsTextItem *healthBar();
+    QGraphicsTextItem *damageBar();
+    QGraphicsTextItem *expBar();
+
     virtual ~Robot();
 };
 
