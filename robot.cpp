@@ -90,25 +90,6 @@ void Robot::setFileDir(const QString &filedir)
 }
 
 
-//void Robot::setNameResources(const QVector<QString> &nameRess)
-//{
-//    if (nameRess.size() > 0)
-//    {
-//        _name_ress = nameRess;
-//    }
-//    else
-//    {
-//        throw QVectorSizeError;
-//    }
-//}
-
-
-
-//QVector<QString> Robot::nameResources() const
-//{
-//    return _name_ress;
-//}
-
 
 void Robot::setGameField(QVector<QVector<Cell*>>* gamefield)
 {
@@ -236,10 +217,17 @@ bool Robot::hit(int index, RobotDirect d)
         if ((obj->name() != "healther") && (obj->name() != "damager")
                 && (obj->name() != "exper") && (obj->name() != name()))
         {
+            setPixmap(QPixmap(fileDir() + name() + "/attack/" + QString::number(d) + ".png"));
             Robot * robot = static_cast<Robot*>(obj);
             robot->setPixmap(QPixmap(robot->fileDir() + robot->name() + "/hpdown/"
                                      + QString::number(robot->direct()) + ".png"));
             robot->setHealth(robot->health() - damage());
+            std::cout << std::endl;
+            std::cout << "Robot2 attacked: " << std::endl;
+            std::cout << "health: " << robot->health() << std::endl;
+            std::cout << "damage: " << robot->damage() << std::endl;
+            std::cout << "exp: " << robot->exp() << std::endl;
+            std::cout << std::endl;
             return true;
         }
     }
@@ -320,13 +308,93 @@ void Robot::attack()
     {
         flag = hit(j2, RDRight);
     }
+}
 
-    std::cout << std::endl;
-    std::cout << "Robot attack: " << std::endl;
-    std::cout << "health: " << health() << std::endl;
-    std::cout << "damage: " << damage() << std::endl;
-    std::cout << "exp: " << exp() << std::endl;
-    std::cout << std::endl;
+
+void Robot::setHealth(int h)
+{
+    _health = h;
+    int max_h = int(exp() * 1.5);
+
+    if (max_h > 99)
+    {
+        max_h = 99;
+    }
+
+    if (_health > max_h)
+    {
+        _health = max_h;
+    }
+
+    if (_health <= 0)
+    {
+        emit deaded(this);
+    }
+
+    emit changeHealth();
+}
+
+
+void Robot::setDamage(int d)
+{
+    _damage = d;
+    int max_d = int(exp() * 1.2);
+
+    if (max_d > 99)
+    {
+        max_d = 99;
+    }
+
+    if (_damage > max_d)
+    {
+        _damage = max_d;
+    }
+
+    emit changeDamage();
+}
+
+
+void Robot::setExp(int e)
+{
+    if (e > 99)
+    {
+        _exp = 99;
+    }
+    else
+    {
+        _exp = e;
+    }
+
+    emit changeExp();
+}
+
+
+void Robot::changeHealthBar()
+{
+    int cwidth = (*_gamefield)[0][0]->width();
+    _health_bar.setPos(_jj * cwidth, _ii * cwidth);
+    _health_bar.setHtml("<p><font size=\"3\" color=\"green\" face=\"Comic Sans\">"
+                                + QString::number(health()) + "</font></p>");
+}
+
+
+void Robot::changeDamageBar()
+{
+    int cwidth = (*_gamefield)[0][0]->width();
+    int ot = 2 * width() / 3;
+    _damage_bar.setPos(_jj * cwidth + ot, _ii * cwidth );
+    _damage_bar.setHtml(QString("<p><font size=\"3\" color=\"red\" face=\"Comic Sans\">"
+                                + QString::number(damage()) + "</font></p>"));
+}
+
+
+void Robot::changeExpBar()
+{
+    int cwidth = (*_gamefield)[0][0]->width();
+    int ot = 2 * width() / 3;
+    _exp_bar.setPos(_jj * cwidth + ot, _ii * cwidth + ot );
+    _exp_bar.setHtml(QString("<p><font size=\"3\" color=\"yellow\" face=\"Comic Sans\">"
+                             + QString::number(exp()) + "</font></p>"));
 }
 
 

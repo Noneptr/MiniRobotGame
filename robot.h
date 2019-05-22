@@ -4,6 +4,7 @@
 #include "gameunit.h"
 #include "cell.h"
 #include <iostream>
+#include <QGraphicsTextItem>
 
 //класс - интерфейс для создания роботов
 
@@ -22,7 +23,15 @@ protected:
     QVector<QVector<Cell *>> *_gamefield = nullptr; // указатель на игровое поле
     QString _filedir;
 
-//    QVector<QString> _name_ress = {"healther", "damager", "exper"}; // названия ресурсов
+    QGraphicsTextItem _health_bar; // отображение жизней робота
+    QGraphicsTextItem _damage_bar; // отображение урона робота
+    QGraphicsTextItem _exp_bar; // отображение опыта робота
+
+
+protected slots:
+    void changeHealthBar();
+    void changeDamageBar();
+    void changeExpBar();
 
 protected:
     virtual bool collection(int index, RobotDirect d);
@@ -56,6 +65,10 @@ public:
     virtual void collect(); // собрать ресурс
 
     virtual void attack(); // атаковать противника
+
+    void setHealth(int h);
+    void setDamage(int d);
+    void setExp(int e);
 
     virtual ~Robot();
 };

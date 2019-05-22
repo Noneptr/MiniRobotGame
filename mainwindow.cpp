@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QGraphicsTextItem>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,12 +25,21 @@ MainWindow::MainWindow(QWidget *parent) :
     scene->addItem(r);
     robot = static_cast<Robot*>(r);
 
+    QGraphicsPixmapItem *r2 = new Robot("robot2", 1, 1, 1, 50, 50,
+                                            ":/rec/", scene->cells(), 0, 0, this);
+    Robot *rb2 = static_cast<Robot*>(r2);
+    scene->addItem(r2);
+    (*scene->cells())[6][12]->setMyObject(rb2);
+    rb2->setPos(600, 300);
+    connect(rb2, &Robot::deaded, scene, &QGraphicsScene::removeItem);
+
     QGraphicsPixmapItem *h = new Healther(this);
     Healther *hp = static_cast<Healther*>(h);
     scene->addItem(h);
     (*scene->cells())[4][4]->setMyObject(hp);
     hp->setPos(200, 200);
     connect(hp, &Healther::deaded, scene, &QGraphicsScene::removeItem);
+
 
     QGraphicsPixmapItem *d = new Damager(this);
     Damager *dmg = static_cast<Damager*>(d);
@@ -44,6 +54,11 @@ MainWindow::MainWindow(QWidget *parent) :
     (*scene->cells())[0][13]->setMyObject(ex);
     ex->setPos(650, 0);
     connect(ex, &Exper::deaded, scene, &QGraphicsScene::removeItem);
+
+    QGraphicsTextItem *text = new QGraphicsTextItem();
+    text->setHtml(QString("<p><font size=\"4\" color=\"green\" face=\"Comic Sans\">10</font></p>"));
+//    text->setTextWidth(20);
+    scene->addItem(text);
 }
 
 MainWindow::~MainWindow()
@@ -78,4 +93,9 @@ void MainWindow::on_pushButton_4_clicked()
 void MainWindow::on_pushButton_5_clicked()
 {
     robot->collect();
+}
+
+void MainWindow::on_pushButton_6_clicked()
+{
+    robot->attack();
 }
