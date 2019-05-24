@@ -397,7 +397,8 @@ void Robot::changeHealthBar()
 {
     int cwidth = (*_gamefield)[0][0]->width();
     _health_bar.setPos(_jj * cwidth, _ii * cwidth);
-    _health_bar.setHtml("<p><font size=\"3\" color=\"green\" face=\"Comic Sans\">"
+    _health_bar.setHtml("<p><font size=\"" + QString::number(width() / 16)
+                        + "\" color=\"green\" face=\"Comic Sans\">"
                                 + QString::number(health()) + "</font></p>");
 }
 
@@ -407,7 +408,8 @@ void Robot::changeDamageBar()
     int cwidth = (*_gamefield)[0][0]->width();
     int ot = 2 * width() / 3;
     _damage_bar.setPos(_jj * cwidth + ot, _ii * cwidth );
-    _damage_bar.setHtml(QString("<p><font size=\"3\" color=\"red\" face=\"Comic Sans\">"
+    _damage_bar.setHtml(QString("<p><font size=\"" + QString::number(width() / 16)
+                                + "\" color=\"red\" face=\"Comic Sans\">"
                                 + QString::number(damage()) + "</font></p>"));
 }
 
@@ -417,7 +419,8 @@ void Robot::changeExpBar()
     int cwidth = (*_gamefield)[0][0]->width();
     int ot = 2 * width() / 3;
     _exp_bar.setPos(_jj * cwidth + ot, _ii * cwidth + ot );
-    _exp_bar.setHtml(QString("<p><font size=\"3\" color=\"yellow\" face=\"Comic Sans\">"
+    _exp_bar.setHtml(QString("<p><font size=\"" + QString::number(width() / 16)
+                             + "\" color=\"yellow\" face=\"Comic Sans\">"
                              + QString::number(exp()) + "</font></p>"));
 }
 

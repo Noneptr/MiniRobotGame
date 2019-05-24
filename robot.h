@@ -37,8 +37,8 @@ protected slots:
     void changeExpBar();
 
 protected:
-    virtual bool collection(int index, RobotDirect d);
-    virtual bool hit(int index, RobotDirect d);
+    bool collection(int index, RobotDirect d);
+    bool hit(int index, RobotDirect d);
 
 public:
     Robot(const QString &Name, int Damage, int Health, int Exp,
@@ -63,11 +63,11 @@ public:
     RobotDirect direct() const;
     void setDirect(RobotDirect d);
 
-    virtual void move(); // сделать шаг
+    void move(); // сделать шаг
 
-    virtual void collect(); // собрать ресурс
+    void collect(); // собрать ресурс
 
-    virtual void attack(); // атаковать противника
+    void attack(); // атаковать противника
 
     void setHealth(int h);
     void setDamage(int d);
