@@ -37,7 +37,7 @@ MainWindow::MainWindow(QWidget *parent) :
     scene->addItem(rb2->healthBar());
     scene->addItem(rb2->expBar());
 
-    QGraphicsPixmapItem *h = new Healther(this);
+    QGraphicsPixmapItem *h = new Healther(50, 50,this);
     Healther *hp = static_cast<Healther*>(h);
     scene->addItem(h);
     (*scene->cells())[4][4]->setMyObject(hp);
@@ -45,14 +45,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(hp, &Healther::deaded, scene, &QGraphicsScene::removeItem);
 
 
-    QGraphicsPixmapItem *d = new Damager(this);
+    QGraphicsPixmapItem *d = new Damager(50, 50,this);
     Damager *dmg = static_cast<Damager*>(d);
     scene->addItem(d);
     (*scene->cells())[7][8]->setMyObject(dmg);
     dmg->setPos(400, 350);
     connect(dmg, &Damager::deaded, scene, &QGraphicsScene::removeItem);
 
-    QGraphicsPixmapItem *e = new Exper(this);
+    QGraphicsPixmapItem *e = new Exper(50, 50,this);
     Exper *ex = static_cast<Exper*>(e);
     scene->addItem(e);
     (*scene->cells())[0][13]->setMyObject(ex);
