@@ -137,6 +137,25 @@ void Robot::setDirect(RobotDirect d)
 }
 
 
+void Robot::setNameResources(const QVector<QString> &nameRecs)
+{
+    if (nameRecs.size() > 0)
+    {
+        _name_recs = nameRecs;
+    }
+    else
+    {
+        throw NotNamesResourcesError;
+    }
+}
+
+
+QVector<QString> Robot::nameResources() const
+{
+    return _name_recs;
+}
+
+
 void Robot::move()
 {
     if (direct() == RDUp)
@@ -165,7 +184,6 @@ void Robot::move()
 
 bool Robot::collection(int index, RobotDirect d)
 {
-    QVector<QString> recs = {"healther", "exper", "damager"};
     Cell* cell;
 
 
@@ -182,7 +200,7 @@ bool Robot::collection(int index, RobotDirect d)
     GameUnit *obj = cell->MyObject();
     if (obj != nullptr)
     {
-        for (QString &r : recs)
+        for (QString &r : _name_recs)
         {
             if (r == obj->name())
             {
@@ -218,8 +236,18 @@ bool Robot::hit(int index, RobotDirect d)
     GameUnit *obj = cell->MyObject();
     if (obj != nullptr)
     {
-        if ((obj->name() != "healther") && (obj->name() != "damager")
-                && (obj->name() != "exper") && (obj->name() != name()))
+        bool _flag = false;
+        for (QString &r : _name_recs)
+        {
+            if (r == obj->name())
+            {
+                _flag = true;
+                break;
+            }
+        }
+
+
+        if ((!_flag) && (obj->name() != name()))
         {
             setPixmap(QPixmap(fileDir() + name() + "/attack/" + QString::number(d) + ".png"));
             Robot * robot = static_cast<Robot*>(obj);

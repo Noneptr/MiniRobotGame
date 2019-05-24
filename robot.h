@@ -9,7 +9,8 @@
 //класс - интерфейс для создания роботов
 
 enum RobotDirect {RDDown, RDUp, RDLeft, RDRight};
-enum RobotError {NotRightGameFieldError, NotPointGameFieldError, QVectorSizeError};
+enum RobotError {NotRightGameFieldError, NotPointGameFieldError,
+                 QVectorSizeError, NotNamesResourcesError};
 
 class Robot;
 using RobotAct = void (Robot::*)();
@@ -26,6 +27,8 @@ protected:
     QGraphicsTextItem _health_bar; // отображение жизней робота
     QGraphicsTextItem _damage_bar; // отображение урона робота
     QGraphicsTextItem _exp_bar; // отображение опыта робота
+
+    QVector<QString> _name_recs = {"healther", "exper", "damager"};
 
 
 protected slots:
@@ -46,15 +49,15 @@ public:
     void setGameField(QVector<QVector<Cell*>>* gamefield);
     QVector<QVector<Cell*>>* gameField() const;
 
-    void setPosI(int p);
+    void setPosI(int p); // установить робота в позицию в столбце
     int posI() const;
-    void setPosJ(int p);
+    void setPosJ(int p); // установить робота в позицию в строке
     int posJ() const;
 
-    QString fileDir() const;
+    QString fileDir() const; // установить название директории с картинками
     void setFileDir(const QString &filedir);
 
-    void setNameResources(const QVector<QString> &nameRess);
+    void setNameResources(const QVector<QString> &nameRecs); // установить имена собираемых ресурсов
     QVector<QString> nameResources() const;
 
     RobotDirect direct() const;
