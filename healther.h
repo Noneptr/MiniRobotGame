@@ -9,7 +9,7 @@ class Healther: public GameUnit
 {
     Q_OBJECT
 public:
-    Healther(QObject *parent = nullptr);
+    Healther(int w, int h, QObject *parent = nullptr);
     void setHealth(int h);
     ~Healther();
 };

@@ -1,7 +1,7 @@
 #include "damager.h"
 
-Damager::Damager(QObject *parent)
-    :GameUnit("damager", 1, 0, 0, 50, 50, QPixmap(":/rec/resources/dmg.png"), parent)
+Damager::Damager(int w, int h, QObject *parent)
+    :GameUnit("damager", 1, 0, 0, w, h, QPixmap(":/rec/resources/dmg.png"), parent)
 {
 }
 

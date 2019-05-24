@@ -9,7 +9,7 @@ class Damager: public GameUnit
 {
     Q_OBJECT
 public:
-    Damager(QObject *parent = nullptr);
+    Damager(int w, int h, QObject *parent = nullptr);
     void setDamage(int d);
 };
 

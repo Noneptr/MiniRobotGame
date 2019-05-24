@@ -1,7 +1,7 @@
 #include "healther.h"
 
-Healther::Healther(QObject *parent)
-    :GameUnit("healther", 0, 1, 0, 50, 50, QPixmap(":/rec/resources/hp.png"), parent)
+Healther::Healther(int w, int h, QObject *parent)
+    :GameUnit("healther", 0, 1, 0, w, h, QPixmap(":/rec/resources/hp.png"), parent)
 {
 }
 

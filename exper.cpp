@@ -1,7 +1,7 @@
 #include "exper.h"
 
-Exper::Exper(QObject *parent)
-    :GameUnit("exper", 0, 0, 1, 50, 50, QPixmap(":/rec/resources/exp.png"), parent)
+Exper::Exper(int w, int h, QObject *parent)
+    :GameUnit("exper", 0, 0, 1, w, h, QPixmap(":/rec/resources/exp.png"), parent)
 {
 }
 
