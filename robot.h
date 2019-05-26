@@ -37,8 +37,8 @@ protected slots:
     void changeExpBar();
 
 protected:
-    bool collection(int index, RobotDirect d);
-    bool hit(int index, RobotDirect d);
+    bool collection(int index, RobotDirect d); // сбор ресурса
+    bool hit(int index, RobotDirect d); // атака
 
 public:
     Robot(const QString &Name, int Damage, int Health, int Exp,
@@ -69,9 +69,12 @@ public:
 
     void attack(); // атаковать противника
 
+    void action(); // построение стратегии совершения действий
+
     void setHealth(int h);
     void setDamage(int d);
     void setExp(int e);
+
 
     QGraphicsTextItem *healthBar();
     QGraphicsTextItem *damageBar();

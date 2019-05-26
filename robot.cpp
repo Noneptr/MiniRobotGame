@@ -330,6 +330,11 @@ void Robot::attack()
 }
 
 
+void Robot::action()
+{
+}
+
+
 void Robot::setHealth(int h)
 {
     _health = h;
