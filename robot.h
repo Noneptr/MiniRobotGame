@@ -5,15 +5,14 @@
 #include "cell.h"
 #include <iostream>
 #include <QGraphicsTextItem>
+#include <QQueue>
+#include "algorithm_search.h"
 
 //класс - интерфейс для создания роботов
 
 enum RobotDirect {RDDown, RDUp, RDLeft, RDRight};
 enum RobotError {NotRightGameFieldError, NotPointGameFieldError,
-                 QVectorSizeError, NotNamesResourcesError};
-
-class Robot;
-using RobotAct = void (Robot::*)();
+                 QVectorSizeError, NotNamesResourcesError, NotNamesEnemysError};
 
 class Robot: public GameUnit
 {
@@ -28,7 +27,8 @@ protected:
     QGraphicsTextItem _damage_bar; // отображение урона робота
     QGraphicsTextItem _exp_bar; // отображение опыта робота
 
-    QVector<QString> _name_recs = {"healther", "exper", "damager"};
+    QVector<QString> _name_recs = {"exper", "healther", "damager"};
+    QVector<QString> _name_enemys = {"robot2", "robot3"};
 
 
 protected slots:
@@ -39,6 +39,11 @@ protected slots:
 protected:
     bool collection(int index, RobotDirect d); // сбор ресурса
     bool hit(int index, RobotDirect d); // атака
+
+protected:
+    QQueue<RobotDirect> _way_to_target;
+    point _target;
+    RobotDirect define_direct(const line &seg);
 
 public:
     Robot(const QString &Name, int Damage, int Health, int Exp,
@@ -59,6 +64,9 @@ public:
 
     void setNameResources(const QVector<QString> &nameRecs); // установить имена собираемых ресурсов
     QVector<QString> nameResources() const;
+
+    void setNameEnemys(const QVector<QString> &nameEnemys); // установить имена атакуемых врагов
+    QVector<QString> nameEnemys() const;
 
     RobotDirect direct() const;
     void setDirect(RobotDirect d);

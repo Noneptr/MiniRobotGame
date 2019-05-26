@@ -98,3 +98,8 @@ void MainWindow::on_pushButton_6_clicked()
 {
     robot->attack();
 }
+
+void MainWindow::on_pushButton_7_clicked()
+{
+    robot->action();
+}

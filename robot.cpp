@@ -19,6 +19,8 @@ Robot::Robot(const QString &Name, int Damage, int Health, int Exp,
     setDamage(Damage);
     setHealth(Health);
     setExp(Exp);
+
+    _target = point(posI(), posJ());
 }
 
 
@@ -30,8 +32,11 @@ void Robot::setPosI(int p)
         {
             if ((*_gamefield)[p][posJ()]->MyObject() == nullptr)
             {
-                (*_gamefield)[_ii][posJ()]->setMyObject(nullptr);
-                _ii = p;
+                if (p != _ii)
+                {
+                    (*_gamefield)[_ii][posJ()]->setMyObject(nullptr);
+                    _ii = p;
+                }
                 (*_gamefield)[_ii][posJ()]->setMyObject(this);
                 int d = (*_gamefield)[0][0]->width();
                 this->setPos(x(), _ii * d);
@@ -58,8 +63,12 @@ void Robot::setPosJ(int p)
         {
             if ((*_gamefield)[posI()][p]->MyObject() == nullptr)
             {
-                (*_gamefield)[posI()][_jj]->setMyObject(nullptr);
-                _jj = p;
+                if (p != _jj)
+                {
+                    (*_gamefield)[posI()][_jj]->setMyObject(nullptr);
+                    _jj = p;
+                }
+
                 (*_gamefield)[posI()][_jj]->setMyObject(this);
                 int d = (*_gamefield)[0][0]->width();
                 this->setPos(_jj * d, y());
@@ -153,6 +162,25 @@ void Robot::setNameResources(const QVector<QString> &nameRecs)
 QVector<QString> Robot::nameResources() const
 {
     return _name_recs;
+}
+
+
+void Robot::setNameEnemys(const QVector<QString> &nameEnemys)
+{
+    if (nameEnemys.size() > 0)
+    {
+        _name_enemys = nameEnemys;
+    }
+    else
+    {
+        throw NotNamesEnemysError;
+    }
+}
+
+
+QVector<QString> Robot::nameEnemys() const
+{
+    return _name_enemys;
 }
 
 
@@ -330,8 +358,129 @@ void Robot::attack()
 }
 
 
+RobotDirect Robot::define_direct(const line &seg)
+{
+    if (seg.first.first > seg.second.first)
+    {
+        return RDUp;
+    }
+    else if (seg.first.first < seg.second.first)
+    {
+        return RDDown;
+    }
+    else if (seg.first.second > seg.second.second)
+    {
+        return RDLeft;
+    }
+    else
+    {
+        return RDRight;
+    }
+}
+
+
 void Robot::action()
 {
+    attack();
+    collect();
+
+    int m = _gamefield->size();
+    int n = (*_gamefield)[0].size();
+
+    Cell* cell_target = (*_gamefield)[_target.first][_target.second];
+
+
+    if ((_way_to_target.empty()) || (cell_target->MyObject() == nullptr)
+            || (cell_target->MyObject()->name() == name()))
+    {
+        SquareGrid graph(m, n);
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                Cell* cell = (*_gamefield)[i][j];
+                if (cell->MyObject() != nullptr)
+                {
+                    graph._walls.push_back(point(i, j));
+                }
+            }
+        }
+
+        if ((cell_target->MyObject() == nullptr) || (cell_target->MyObject()->name() == name()))
+        {
+
+            QVector<QString> name_targets;
+            for (QString &e: _name_recs)
+            {
+                name_targets.push_back(e);
+            }
+
+            for (QString &e: _name_enemys)
+            {
+                name_targets.push_back(e);
+            }
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    Cell* cell = (*_gamefield)[i][j];
+                    GameUnit* obj = cell->MyObject();
+                    if (obj != nullptr)
+                    {
+                        for (const QString &e: name_targets)
+                        {
+                            if (obj->name() == e)
+                            {
+                                _target = point(i, j);
+                                cell_target = (*_gamefield)[_target.first][_target.second];
+                                break;
+                            }
+                        }
+                    }
+
+                    if (cell_target->MyObject() != nullptr)
+                    {
+                        break;
+                    }
+                }
+
+                if (cell_target->MyObject() != nullptr)
+                {
+                    break;
+                }
+            }
+        }
+
+        dict way = search_short_way(graph, point(posI(), posJ()), _target);
+
+        for (const line &e: way)
+        {
+            if (e != way[0])
+            {
+                _way_to_target.push_back(define_direct(e));
+            }
+        }
+    }
+
+    if (_way_to_target.size() == 1)
+    {
+        if (cell_target->MyObject() != nullptr)
+        {
+            attack();
+            collect();
+        }
+        else
+        {
+            _way_to_target.pop_back();
+        }
+    }
+    else
+    {
+        setDirect(_way_to_target.back());
+        move();
+        _way_to_target.pop_back();
+    }
 }
 
 
