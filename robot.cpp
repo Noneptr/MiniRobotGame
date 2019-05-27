@@ -20,7 +20,7 @@ Robot::Robot(const QString &Name, int Damage, int Health, int Exp,
     setHealth(Health);
     setExp(Exp);
 
-    _target = point(posI(), posJ());
+    _target = (*_gamefield)[posI() + 1][posJ()];
 }
 
 
@@ -32,11 +32,8 @@ void Robot::setPosI(int p)
         {
             if ((*_gamefield)[p][posJ()]->MyObject() == nullptr)
             {
-                if (p != _ii)
-                {
-                    (*_gamefield)[_ii][posJ()]->setMyObject(nullptr);
-                    _ii = p;
-                }
+                (*_gamefield)[_ii][posJ()]->setMyObject(nullptr);
+                _ii = p;
                 (*_gamefield)[_ii][posJ()]->setMyObject(this);
                 int d = (*_gamefield)[0][0]->width();
                 this->setPos(x(), _ii * d);
@@ -63,12 +60,8 @@ void Robot::setPosJ(int p)
         {
             if ((*_gamefield)[posI()][p]->MyObject() == nullptr)
             {
-                if (p != _jj)
-                {
-                    (*_gamefield)[posI()][_jj]->setMyObject(nullptr);
-                    _jj = p;
-                }
-
+                (*_gamefield)[posI()][_jj]->setMyObject(nullptr);
+                _jj = p;
                 (*_gamefield)[posI()][_jj]->setMyObject(this);
                 int d = (*_gamefield)[0][0]->width();
                 this->setPos(_jj * d, y());
@@ -105,9 +98,9 @@ void Robot::setGameField(QVector<QVector<Cell*>>* gamefield)
 {
     if (gamefield != nullptr)
     {
-        if (gamefield->size() > 0)
+        if (gamefield->size() > 1)
         {
-            if ((*gamefield)[0].size() > 0)
+            if ((*gamefield)[0].size() > 1)
             {
                 _gamefield = gamefield;
             }
@@ -358,128 +351,104 @@ void Robot::attack()
 }
 
 
-RobotDirect Robot::define_direct(const line &seg)
-{
-    if (seg.first.first > seg.second.first)
-    {
-        return RDUp;
-    }
-    else if (seg.first.first < seg.second.first)
-    {
-        return RDDown;
-    }
-    else if (seg.first.second > seg.second.second)
-    {
-        return RDLeft;
-    }
-    else
-    {
-        return RDRight;
-    }
-}
-
-
 void Robot::action()
 {
-    attack();
-    collect();
-
     int m = _gamefield->size();
     int n = (*_gamefield)[0].size();
 
-    Cell* cell_target = (*_gamefield)[_target.first][_target.second];
 
-
-    if ((_way_to_target.empty()) || (cell_target->MyObject() == nullptr)
-            || (cell_target->MyObject()->name() == name()))
+    if (_target->MyObject() == nullptr)
     {
-        SquareGrid graph(m, n);
+        QVector<QString> name_targets;
+        for (QString &e: _name_recs)
+        {
+            name_targets.push_back(e);
+        }
+
+        for (QString &e: _name_enemys)
+        {
+            name_targets.push_back(e);
+        }
+
         for (int i = 0; i < m; i++)
         {
             for (int j = 0; j < n; j++)
             {
                 Cell* cell = (*_gamefield)[i][j];
-                if (cell->MyObject() != nullptr)
+                GameUnit* obj = cell->MyObject();
+                if (obj != nullptr)
                 {
-                    graph._walls.push_back(point(i, j));
-                }
-            }
-        }
-
-        if ((cell_target->MyObject() == nullptr) || (cell_target->MyObject()->name() == name()))
-        {
-
-            QVector<QString> name_targets;
-            for (QString &e: _name_recs)
-            {
-                name_targets.push_back(e);
-            }
-
-            for (QString &e: _name_enemys)
-            {
-                name_targets.push_back(e);
-            }
-
-            for (int i = 0; i < m; i++)
-            {
-                for (int j = 0; j < n; j++)
-                {
-                    Cell* cell = (*_gamefield)[i][j];
-                    GameUnit* obj = cell->MyObject();
-                    if (obj != nullptr)
+                    for (const QString &e: name_targets)
                     {
-                        for (const QString &e: name_targets)
+                        if (obj->name() == e)
                         {
-                            if (obj->name() == e)
-                            {
-                                _target = point(i, j);
-                                cell_target = (*_gamefield)[_target.first][_target.second];
-                                break;
-                            }
+                            _target = (*_gamefield)[i][j];
+                            i = m;
+                            j = n;
+                            break;
                         }
                     }
-
-                    if (cell_target->MyObject() != nullptr)
-                    {
-                        break;
-                    }
                 }
-
-                if (cell_target->MyObject() != nullptr)
-                {
-                    break;
-                }
-            }
-        }
-
-        dict way = search_short_way(graph, point(posI(), posJ()), _target);
-
-        for (const line &e: way)
-        {
-            if (e != way[0])
-            {
-                _way_to_target.push_back(define_direct(e));
             }
         }
     }
 
-    if (_way_to_target.size() == 1)
+    if (_target->MyObject() != nullptr)
     {
-        if (cell_target->MyObject() != nullptr)
+        bool p1 = abs(posI() - _target->i()) > 1;
+        bool p2 = abs(posJ() - _target->j()) > 1;
+        bool p3 = abs(posI() - _target->i()) == 1;
+        bool p4 = abs(posJ() - _target->j()) == 1;
+        if (p1 || p2 || (p3 && p4))
+        {
+            int c = qrand() % 2;
+
+            if (c == 0)
+            {
+                if (posI() < _target->i())
+                {
+                    setDirect(RDDown);
+                }
+                else if (posI() > _target->i())
+                {
+                    setDirect(RDUp);
+                }
+                else if (posJ() < _target->j())
+                {
+                    setDirect(RDRight);
+                }
+                else if (posJ() > _target->j())
+                {
+                    setDirect(RDLeft);
+                }
+            }
+            else
+            {
+                if (posJ() < _target->j())
+                {
+                    setDirect(RDRight);
+                }
+                else if (posJ() > _target->j())
+                {
+                    setDirect(RDLeft);
+                }
+                else if (posI() < _target->i())
+                {
+                    setDirect(RDDown);
+                }
+                else if (posI() > _target->i())
+                {
+                    setDirect(RDUp);
+                }
+            }
+
+            move();
+        }
+        else
         {
             attack();
             collect();
         }
-        else
-        {
-            _way_to_target.pop_back();
-        }
-    }
-    else
-    {
-        setDirect(_way_to_target.back());
-        move();
-        _way_to_target.pop_back();
     }
 }
 

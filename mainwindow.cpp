@@ -24,18 +24,23 @@ MainWindow::MainWindow(QWidget *parent) :
     ":/rec/", scene->cells(), 0, 0, this);
     scene->addItem(r);
     robot = static_cast<Robot*>(r);
+    connect(robot, &Robot::deaded, scene, &QGraphicsScene::removeItem);
     scene->addItem(robot->damageBar());
     scene->addItem(robot->healthBar());
     scene->addItem(robot->expBar());
+    robot->setNameResources({"exper", "healther", "damager"});
+    robot->setNameEnemys({"robot2", "robot3"});
 
-    QGraphicsPixmapItem *r2 = new Robot("robot2", 10, 10, 10, 50, 50,
+    QGraphicsPixmapItem *r2 = new Robot("robot2", 1, 1, 1, 50, 50,
                                             ":/rec/", scene->cells(), 6, 12, this);
-    Robot *rb2 = static_cast<Robot*>(r2);
+    robot2 = static_cast<Robot*>(r2);
     scene->addItem(r2);
-    connect(rb2, &Robot::deaded, scene, &QGraphicsScene::removeItem);
-    scene->addItem(rb2->damageBar());
-    scene->addItem(rb2->healthBar());
-    scene->addItem(rb2->expBar());
+    connect(robot2, &Robot::deaded, scene, &QGraphicsScene::removeItem);
+    scene->addItem(robot2->damageBar());
+    scene->addItem(robot2->healthBar());
+    scene->addItem(robot2->expBar());
+    robot2->setNameResources({"exper", "healther", "damager"});
+    robot2->setNameEnemys({"robot1", "robot3"});
 
     QGraphicsPixmapItem *h = new Healther(50, 50,this);
     Healther *hp = static_cast<Healther*>(h);
@@ -101,5 +106,13 @@ void MainWindow::on_pushButton_6_clicked()
 
 void MainWindow::on_pushButton_7_clicked()
 {
-    robot->action();
+    if (robot->health() > 0)
+    {
+        robot->action();
+    }
+
+    if (robot2->health() > 0)
+    {
+        robot2->action();
+    }
 }

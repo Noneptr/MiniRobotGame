@@ -1,6 +1,7 @@
 #include "gameunit.h"
 
-GameUnit::GameUnit(const QString &Name, int Damage, int Health, int Exp, int Width, int Height, const QPixmap &pixmap, QObject *parent)
+GameUnit::GameUnit(const QString &Name, int Damage, int Health, int Exp,
+                   int Width, int Height, const QPixmap &pixmap, QObject *parent)
     :GameObject(Width, Height, pixmap, parent), _name(Name), _damage(Damage), _health(Health), _exp(Exp)
 {
 }

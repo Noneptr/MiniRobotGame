@@ -39,6 +39,7 @@ private:
     Ui::MainWindow *ui;
     GameField *scene;
     Robot* robot;
+    Robot* robot2;
 };
 
 #endif // MAINWINDOW_H

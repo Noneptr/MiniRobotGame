@@ -5,8 +5,6 @@
 #include "cell.h"
 #include <iostream>
 #include <QGraphicsTextItem>
-#include <QQueue>
-#include "algorithm_search.h"
 
 //класс - интерфейс для создания роботов
 
@@ -41,9 +39,7 @@ protected:
     bool hit(int index, RobotDirect d); // атака
 
 protected:
-    QQueue<RobotDirect> _way_to_target;
-    point _target;
-    RobotDirect define_direct(const line &seg);
+    Cell* _target;
 
 public:
     Robot(const QString &Name, int Damage, int Health, int Exp,
