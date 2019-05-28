@@ -58,9 +58,8 @@ public:
     void setGameField(QVector<QVector<Cell*>>* gamefield);
     QVector<QVector<Cell*>>* gameField() const;
 
-    void setPosI(int p); // установить робота в позицию в столбце
+    void setPosIJ(int pi, int pj); // установить позицию робота в поле
     int posI() const;
-    void setPosJ(int p); // установить робота в позицию в строке
     int posJ() const;
 
     QString fileDir() const; // установить название директории с картинками

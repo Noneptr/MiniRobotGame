@@ -63,6 +63,46 @@ MainWindow::MainWindow(QWidget *parent) :
     (*scene->cells())[0][13]->setMyObject(ex);
     ex->setPos(650, 0);
     connect(ex, &Exper::deaded, scene, &QGraphicsScene::removeItem);
+
+    std::cout << std::endl;
+    for (int i = 0; i < scene->cells()->size(); i++)
+    {
+        for (int j = 0; j < (*scene->cells())[0].size(); j++)
+        {
+            Cell* cell = (*scene->cells())[i][j];
+            GameUnit* obj = cell->MyObject();
+
+            if (obj == nullptr)
+            {
+                std::cout << "* ";
+            }
+            else
+            {
+                if (obj->name() == "robot1")
+                {
+                    std::cout << "R ";
+                }
+                else if (obj->name() == "robot2")
+                {
+                    std::cout << "r ";
+                }
+                else if (obj->name() == "healther")
+                {
+                    std::cout << "+ ";
+                }
+                else if (obj->name() == "damager")
+                {
+                    std::cout << "# ";
+                }
+                else if (obj->name() == "exper")
+                {
+                    std::cout << "@ ";
+                }
+            }
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
 }
 
 MainWindow::~MainWindow()
