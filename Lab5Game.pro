@@ -34,7 +34,8 @@ SOURCES += \
     healther.cpp \
     damager.cpp \
     exper.cpp \
-    robot.cpp
+    robot.cpp \
+    algorithm_help_robot.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -45,7 +46,8 @@ HEADERS += \
     healther.h \
     damager.h \
     exper.h \
-    robot.h
+    robot.h \
+    algorithm_help_robot.h
 
 FORMS += \
         mainwindow.ui

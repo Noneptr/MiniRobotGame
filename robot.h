@@ -5,6 +5,7 @@
 #include "cell.h"
 #include <iostream>
 #include <QGraphicsTextItem>
+#include "algorithm_help_robot.h"
 
 //класс - интерфейс для создания роботов
 
@@ -39,7 +40,7 @@ protected:
     bool hit(int index, RobotDirect d); // атака
 
 protected:
-    Cell* _target;
+    Cell* _target; // текущая цель робота
 
 public:
     Robot(const QString &Name, int Damage, int Health, int Exp,
@@ -78,6 +79,8 @@ public:
     void setHealth(int h);
     void setDamage(int d);
     void setExp(int e);
+
+    void findNearestTarget(); // поиск ближайшей цели волновым алгоритмом
 
 
     QGraphicsTextItem *healthBar();

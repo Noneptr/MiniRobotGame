@@ -353,101 +353,69 @@ void Robot::attack()
 
 void Robot::action()
 {
-    int m = _gamefield->size();
-    int n = (*_gamefield)[0].size();
-
-
     if (_target->MyObject() == nullptr)
     {
-        QVector<QString> name_targets;
-        for (QString &e: _name_recs)
-        {
-            name_targets.push_back(e);
-        }
-
-        for (QString &e: _name_enemys)
-        {
-            name_targets.push_back(e);
-        }
-
-        for (int i = 0; i < m; i++)
-        {
-            for (int j = 0; j < n; j++)
-            {
-                Cell* cell = (*_gamefield)[i][j];
-                GameUnit* obj = cell->MyObject();
-                if (obj != nullptr)
-                {
-                    for (const QString &e: name_targets)
-                    {
-                        if (obj->name() == e)
-                        {
-                            _target = (*_gamefield)[i][j];
-                            i = m;
-                            j = n;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+        findNearestTarget(); // поиск ближайшей цели волновым алгоритмом
     }
 
     if (_target->MyObject() != nullptr)
     {
-        bool p1 = abs(posI() - _target->i()) > 1;
-        bool p2 = abs(posJ() - _target->j()) > 1;
-        bool p3 = abs(posI() - _target->i()) == 1;
-        bool p4 = abs(posJ() - _target->j()) == 1;
-        if (p1 || p2 || (p3 && p4))
+        if (_target->MyObject()->name() != name())
         {
-            int c = qrand() % 2;
-
-            if (c == 0)
+            bool p1 = abs(posI() - _target->i()) > 1;
+            bool p2 = abs(posJ() - _target->j()) > 1;
+            bool p3 = abs(posI() - _target->i()) == 1;
+            bool p4 = abs(posJ() - _target->j()) == 1;
+            if (p1 || p2 || (p3 && p4))
             {
-                if (posI() < _target->i())
+                int c = qrand() % 2;
+
+                if (c == 0)
                 {
-                    setDirect(RDDown);
+                    if (posI() < _target->i())
+                    {
+                        setDirect(RDDown);
+                    }
+                    else if (posI() > _target->i())
+                    {
+                        setDirect(RDUp);
+                    }
+                    else if (posJ() < _target->j())
+                    {
+                        setDirect(RDRight);
+                    }
+                    else if (posJ() > _target->j())
+                    {
+                        setDirect(RDLeft);
+                    }
                 }
-                else if (posI() > _target->i())
+                else
                 {
-                    setDirect(RDUp);
+                    if (posJ() < _target->j())
+                    {
+                        setDirect(RDRight);
+                    }
+                    else if (posJ() > _target->j())
+                    {
+                        setDirect(RDLeft);
+                    }
+                    else if (posI() < _target->i())
+                    {
+                        setDirect(RDDown);
+                    }
+                    else if (posI() > _target->i())
+                    {
+                        setDirect(RDUp);
+                    }
                 }
-                else if (posJ() < _target->j())
-                {
-                    setDirect(RDRight);
-                }
-                else if (posJ() > _target->j())
-                {
-                    setDirect(RDLeft);
-                }
+
+                move();
             }
             else
             {
-                if (posJ() < _target->j())
-                {
-                    setDirect(RDRight);
-                }
-                else if (posJ() > _target->j())
-                {
-                    setDirect(RDLeft);
-                }
-                else if (posI() < _target->i())
-                {
-                    setDirect(RDDown);
-                }
-                else if (posI() > _target->i())
-                {
-                    setDirect(RDUp);
-                }
+                attack();
+                collect();
             }
-
-            move();
-        }
-        else
-        {
-            attack();
-            collect();
         }
     }
 }
@@ -545,6 +513,80 @@ void Robot::changeExpBar()
     _exp_bar.setHtml(QString("<p><font size=\"" + QString::number(width() / 16)
                              + "\" color=\"yellow\" face=\"Comic Sans\">"
                              + QString::number(exp()) + "</font></p>"));
+}
+
+void Robot::findNearestTarget()
+{
+    QPair<int, int> target(-1, -1);
+    QPair<int, int> finder(posI(), posJ()); // текущее положение робота
+
+    int m = _gamefield->size();
+    int n = (*_gamefield)[0].size();
+
+    QVector<QString> name_targets; // список названий целей
+    for (QString &e: _name_recs)
+    {
+        name_targets.push_back(e);
+    }
+
+    for (QString &e: _name_enemys)
+    {
+        name_targets.push_back(e);
+    }
+
+    Queue front; // очередь просматриваемых точек
+    front.push(finder);
+    QVector<QPair<int, int>> visited; // список просмотренных точек
+    visited.push_back(finder);
+
+    while (!front.empty())
+    {
+        QPair<int, int> current = front.front();
+        front.pop();
+
+        Cell *cell = (*_gamefield)[current.first][current.second];
+        GameUnit *obj = cell->MyObject();
+
+        if (obj != nullptr)
+        {
+            if (obj->name() != name())
+            {
+                bool flag = false;
+                for (const QString &e: name_targets)
+                {
+                    if (e == obj->name())
+                    {
+                        target = current;
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (flag)
+                {
+                    break;
+                }
+            }
+        }
+
+        for (QPair<int, int> &next: neighbours(current, m, n))
+        {
+            if (!in_vector(next, visited))
+            {
+                front.push(next);
+                visited.push_back(next);
+            }
+        }
+    }
+
+    if (target == QPair<int, int>(-1, -1))
+    {
+        _target = (*_gamefield)[posI()][posJ()];
+    }
+    else
+    {
+        _target = (*_gamefield)[target.first][target.second];
+    }
 }
 
 

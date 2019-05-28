@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->graphicsView->setScene(scene);
 
-    QGraphicsPixmapItem *r = new Robot("robot1", 1, 1, 1, 50, 50,
+    QGraphicsPixmapItem *r = new Robot("robot1", 1, 2, 4, 50, 50,
     ":/rec/", scene->cells(), 0, 0, this);
     scene->addItem(r);
     robot = static_cast<Robot*>(r);
@@ -31,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent) :
     robot->setNameResources({"exper", "healther", "damager"});
     robot->setNameEnemys({"robot2", "robot3"});
 
-    QGraphicsPixmapItem *r2 = new Robot("robot2", 1, 1, 1, 50, 50,
+    QGraphicsPixmapItem *r2 = new Robot("robot2", 1, 2, 4, 50, 50,
                                             ":/rec/", scene->cells(), 6, 12, this);
     robot2 = static_cast<Robot*>(r2);
     scene->addItem(r2);
@@ -106,13 +106,12 @@ void MainWindow::on_pushButton_6_clicked()
 
 void MainWindow::on_pushButton_7_clicked()
 {
-    if (robot->health() > 0)
-    {
-        robot->action();
-    }
-
     if (robot2->health() > 0)
     {
         robot2->action();
+    }
+    if (robot->health() > 0)
+    {
+        robot->action();
     }
 }
