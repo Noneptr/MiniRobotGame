@@ -413,8 +413,28 @@ void Robot::action()
             }
             else
             {
-                attack();
-                collect();
+                bool flag = false;
+                for (const QString &e: _name_enemys)
+                {
+                    if (e == _target->MyObject()->name())
+                    {
+                        attack();
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (!flag)
+                {
+                    for (const QString &e: _name_recs)
+                    {
+                        if (e == _target->MyObject()->name())
+                        {
+                            collect();
+                            break;
+                        }
+                    }
+                }
             }
         }
     }

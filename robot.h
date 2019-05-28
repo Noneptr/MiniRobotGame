@@ -3,15 +3,16 @@
 
 #include "gameunit.h"
 #include "cell.h"
-#include <iostream>
 #include <QGraphicsTextItem>
 #include "algorithm_help_robot.h"
+#include <iostream>
 
 //класс - интерфейс для создания роботов
 
-enum RobotDirect {RDDown, RDUp, RDLeft, RDRight};
+enum RobotDirect {RDDown, RDUp, RDLeft, RDRight}; // перечислимы тип направлений движения робота
+
 enum RobotError {NotRightGameFieldError, NotPointGameFieldError,
-                 QVectorSizeError, NotNamesResourcesError, NotNamesEnemysError};
+                 QVectorSizeError, NotNamesResourcesError, NotNamesEnemysError}; // перечислимый тип ошибок класа робот
 
 class Robot: public GameUnit
 {
@@ -35,9 +36,13 @@ protected slots:
     void changeDamageBar();
     void changeExpBar();
 
+
+    //========================методы взаимодействия с игровым полем и его объектами====================================
 protected:
     bool collection(int index, RobotDirect d); // сбор ресурса
     bool hit(int index, RobotDirect d); // атака
+    //=================================================================================================================
+
 
 protected:
     Cell* _target; // текущая цель робота
@@ -47,6 +52,8 @@ public:
           int Width, int Height, const QString &filedir,
           QVector<QVector<Cell*>>* gamefield,
           int PosI = 0,int PosJ = 0, QObject *parent = nullptr);
+
+    //===================================методы доступа к полям========================================================
 
     void setGameField(QVector<QVector<Cell*>>* gamefield);
     QVector<QVector<Cell*>>* gameField() const;
@@ -68,6 +75,17 @@ public:
     RobotDirect direct() const;
     void setDirect(RobotDirect d);
 
+    void setHealth(int h);
+    void setDamage(int d);
+    void setExp(int e);
+
+    QGraphicsTextItem *healthBar();
+    QGraphicsTextItem *damageBar();
+    QGraphicsTextItem *expBar();
+    //========================================================================================================
+
+    //================методы взаимодействия с игровым полем и его игровыми объектами==========================
+
     void move(); // сделать шаг
 
     void collect(); // собрать ресурс
@@ -76,16 +94,8 @@ public:
 
     void action(); // построение стратегии совершения действий
 
-    void setHealth(int h);
-    void setDamage(int d);
-    void setExp(int e);
-
     void findNearestTarget(); // поиск ближайшей цели волновым алгоритмом
-
-
-    QGraphicsTextItem *healthBar();
-    QGraphicsTextItem *damageBar();
-    QGraphicsTextItem *expBar();
+    //========================================================================================================
 
     virtual ~Robot();
 };
