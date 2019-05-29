@@ -12,7 +12,6 @@
 #include "damager.h"
 #include "healther.h"
 
-const int count_dead_obj = 100;
 
 class GameField : public QGraphicsScene
 {
@@ -23,7 +22,7 @@ private:
     QTimer _timer;
     QVector<QString> nrobots = {"rstd", "rbul", "rhp"};
     QVector<QString> nresources = {"hp", "exp", "dmg"};
-    int _count = 0;
+    int _ticks = 0;
 public:
     GameField(qreal x, qreal y, qreal width, qreal height,
               int size_cell, int interval, QObject *parent = nullptr);

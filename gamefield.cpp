@@ -21,7 +21,7 @@ GameField::GameField(qreal x, qreal y, qreal width, qreal height,
 
     _timer.setInterval(interval);
     srand(static_cast<unsigned long>(time(nullptr)));
-    connect(&_timer, &QTimer::timeout, [this]()->void{if(_count > 1000){_count = 1;}else{_count++;}});
+    connect(&_timer, &QTimer::timeout, [this]()->void{if(_ticks > 1000){_ticks = 1;}else{_ticks++;}});
     connect(&_timer, &QTimer::timeout, this, &GameField::createResource);
     connect(&_timer, &QTimer::timeout, this, &GameField::createRobot);
 }
@@ -33,6 +33,7 @@ void GameField::playGame()
     {
         _timer.setSingleShot(false);
     }
+
     _timer.start();
 }
 
@@ -43,6 +44,7 @@ void GameField::playStepGame()
     {
         _timer.setSingleShot(true);
     }
+
     _timer.start();
 }
 
@@ -59,16 +61,14 @@ void GameField::setIntervalGame(int interval)
 
 void GameField::createRobot()
 {
-    if (_count % 6 == 0)
+    if (_ticks % 6 == 0)
     {
         int si = rand() % _cells.size();
         int sj = rand() % _cells[0].size();
-        qDebug() << "{i: " << si << "; j: " << sj << "}" << endl;
 
         if (_cells[si][sj]->MyObject() == nullptr)
         {
             int s = rand() % nrobots.size();
-            qDebug() << "s: " << s << endl;
             QString &name = nrobots[s];
 
             if (name == "rstd")
@@ -84,8 +84,13 @@ void GameField::createRobot()
                 robot->setNameResources({"exper", "healther", "damager"});
                 robot->setNameEnemys({"robot2", "robot3"});
                 connect(&_timer, &QTimer::timeout, robot, &RobotStandart::action);
-                connect(&_timer, &QTimer::timeout,
-                        [this, robot]()->void{if ((_count + 1) % count_dead_obj == 0){robot->setHealth(0);}});
+
+                auto f = [this, robot]()->void{
+                    disconnect(robot, &RobotStandart::deaded, this, &QGraphicsScene::removeItem);
+                    disconnect(robot, &RobotStandart::deaded, robot, &RobotStandart::deleteLater);
+                    disconnect(&_timer, &QTimer::timeout, robot, &RobotStandart::action);};
+
+                connect(robot, &RobotStandart::destroyed, f);
             }
             else if (name == "rbul")
             {
@@ -100,8 +105,13 @@ void GameField::createRobot()
                 robot->setNameResources({"exper", "healther", "damager"});
                 robot->setNameEnemys({"robot1", "robot3"});
                 connect(&_timer, &QTimer::timeout, robot, &RobotBullet::action);
-                connect(&_timer, &QTimer::timeout,
-                        [this, robot]()->void{if ((_count + 1) % count_dead_obj == 0){robot->setHealth(0);}});
+
+                auto f = [this, robot]()->void{
+                    disconnect(robot, &RobotBullet::deaded, this, &QGraphicsScene::removeItem);
+                    disconnect(robot, &RobotBullet::deaded, robot, &RobotBullet::deleteLater);
+                    disconnect(&_timer, &QTimer::timeout, robot, &RobotBullet::action);};
+
+                connect(robot, &RobotBullet::destroyed, f);
             }
             else
             {
@@ -116,8 +126,13 @@ void GameField::createRobot()
                 robot->setNameResources({"exper", "healther", "damager"});
                 robot->setNameEnemys({"robot1", "robot2"});
                 connect(&_timer, &QTimer::timeout, robot, &RobotHealthy::action);
-                connect(&_timer, &QTimer::timeout,
-                        [this, robot]()->void{if ((_count + 1) % count_dead_obj == 0){robot->setHealth(0);}});
+
+                auto f = [this, robot]()->void{
+                    disconnect(robot, &RobotHealthy::deaded, this, &QGraphicsScene::removeItem);
+                    disconnect(robot, &RobotHealthy::deaded, robot, &RobotHealthy::deleteLater);
+                    disconnect(&_timer, &QTimer::timeout, robot, &RobotHealthy::action);};
+
+                connect(robot, &RobotHealthy::destroyed, f);
             }
         }
     }
@@ -126,11 +141,10 @@ void GameField::createRobot()
 
 void GameField::createResource()
 {
-    if (_count % 4 == 0)
+    if (_ticks % 4 == 0)
     {
         int si = rand() % _cells.size();
         int sj = rand() % _cells[0].size();
-        qDebug() << "{i: " << si << "; j: " << sj << "}" << endl;
 
         Cell *cell = _cells[si][sj];
 
@@ -139,7 +153,6 @@ void GameField::createResource()
             int size_cell = cell->width();
 
             int s = rand() % nresources.size();
-            qDebug() << "s: " << s << endl;
             QString &name = nresources[s];
 
             if (name == "exp")
@@ -151,9 +164,12 @@ void GameField::createResource()
                 ex->setPos(sj * size_cell, si * size_cell);
                 connect(ex, &Exper::deaded, this, &QGraphicsScene::removeItem);
                 connect(ex, &Exper::deaded, ex, &Exper::deleteLater);
-                connect(&_timer, &QTimer::timeout,
-                        [this, ex, cell]()->void{
-                    if ((_count + 1) % count_dead_obj == 0){cell->setMyObject(nullptr); emit ex->deaded(ex);}});
+
+                auto f = [this, ex]()->void{
+                    disconnect(ex, &Exper::deaded, this, &QGraphicsScene::removeItem);
+                    disconnect(ex, &Exper::deaded, ex, &Exper::deleteLater);};
+
+                connect(ex, &Exper::destroyed, f);
             }
             else if (name == "hp")
             {
@@ -164,9 +180,12 @@ void GameField::createResource()
                 hp->setPos(sj * size_cell, si * size_cell);
                 connect(hp, &Healther::deaded, this, &QGraphicsScene::removeItem);
                 connect(hp, &Healther::deaded, hp, &Healther::deleteLater);
-                connect(&_timer, &QTimer::timeout,
-                        [this, hp, cell]()->void{
-                    if ((_count + 1) % count_dead_obj == 0){cell->setMyObject(nullptr); emit hp->deaded(hp);}});
+
+                auto f = [this, hp]()->void{
+                    disconnect(hp, &Healther::deaded, this, &QGraphicsScene::removeItem);
+                    disconnect(hp, &Healther::deaded, hp, &Healther::deleteLater);};
+
+                connect(hp, &Healther::destroyed, f);
             }
             else
             {
@@ -177,9 +196,12 @@ void GameField::createResource()
                 dmg->setPos(sj * size_cell, si * size_cell);
                 connect(dmg, &Damager::deaded, this, &QGraphicsScene::removeItem);
                 connect(dmg, &Damager::deaded, dmg, &Damager::deleteLater);
-                connect(&_timer, &QTimer::timeout,
-                        [this, dmg, cell]()->void{
-                    if ((_count + 1) % count_dead_obj == 0){cell->setMyObject(nullptr); emit dmg->deaded(dmg);}});
+
+                auto f = [this, dmg]()->void{
+                    disconnect(dmg, &Damager::deaded, this, &QGraphicsScene::removeItem);
+                    disconnect(dmg, &Damager::deaded, dmg, &Damager::deleteLater);};
+
+                connect(dmg, &Damager::destroyed, f);
             }
         }
     }
