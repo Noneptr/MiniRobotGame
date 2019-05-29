@@ -10,6 +10,7 @@ class RobotStandart: public Robot
 public:
     RobotStandart(int Width, int Height, QVector<QVector<Cell *>> *gamefield,
                   int PosI, int PosJ, QObject *parent = nullptr);
+    ~RobotStandart();
 };
 
 #endif // ROBOTSTANDART_H

@@ -17,3 +17,9 @@ void Damager::setDamage(int d)
         _damage = 1;
     }
 }
+
+
+Damager::~Damager()
+{
+    qDebug() << "Damager destroyed!!!" << endl;
+}

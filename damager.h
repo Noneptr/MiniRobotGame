@@ -11,6 +11,7 @@ class Damager: public GameUnit
 public:
     Damager(int w, int h, QObject *parent = nullptr);
     void setDamage(int d);
+    ~Damager();
 };
 
 #endif // DAMAGER_H

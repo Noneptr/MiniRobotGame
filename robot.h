@@ -5,6 +5,7 @@
 #include "cell.h"
 #include <QGraphicsTextItem>
 #include "algorithm_help_robot.h"
+#include <cstdlib>
 
 //класс - интерфейс для создания роботов
 

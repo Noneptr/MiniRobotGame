@@ -2,10 +2,12 @@
 #define GAMEUNIT_H
 
 #include "gameobject.h"
+#include <QDebug>
 
 class GameUnit: public GameObject
 {
     Q_OBJECT
+
 protected:
     QString _name; // название игровой единицы
     int _damage; // значение урона игровой единицы

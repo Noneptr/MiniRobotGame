@@ -3,12 +3,6 @@
 
 #include <QMainWindow>
 #include "gamefield.h"
-#include "healther.h"
-#include "damager.h"
-#include "exper.h"
-#include "robotstandart.h"
-#include "robothealthy.h"
-#include "robotbullet.h"
 
 namespace Ui {
 class MainWindow;
@@ -23,26 +17,17 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
+    void on_bt_play_game_clicked();
 
-    void on_pushButton_2_clicked();
+    void on_bt_play_step_clicked();
 
-    void on_pushButton_3_clicked();
+    void on_bt_stop_game_clicked();
 
-    void on_pushButton_4_clicked();
-
-    void on_pushButton_5_clicked();
-
-    void on_pushButton_6_clicked();
-
-    void on_pushButton_7_clicked();
+    void on_sb_interval_valueChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;
     GameField *scene;
-    RobotStandart* robot;
-    RobotHealthy* robot3;
-    RobotBullet* robot2;
 };
 
 #endif // MAINWINDOW_H

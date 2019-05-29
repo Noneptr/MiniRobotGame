@@ -11,6 +11,7 @@ class Exper: public GameUnit
 public:
     Exper(int w, int h, QObject *parent = nullptr);
     void setExp(int e);
+    ~Exper();
 };
 
 #endif // EXPER_H

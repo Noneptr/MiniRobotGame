@@ -17,3 +17,9 @@ void Exper::setExp(int e)
         _exp = 1;
     }
 }
+
+
+Exper::~Exper()
+{
+    qDebug() << "Exper destroyed!!!" << endl;
+}

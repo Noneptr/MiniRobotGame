@@ -10,6 +10,8 @@ class RobotHealthy: public Robot
 public:
     RobotHealthy(int Width, int Height, QVector<QVector<Cell *>> *gamefield,
                  int PosI, int PosJ, QObject *parent = nullptr);
+
+    ~RobotHealthy();
 };
 
 #endif // ROBOTHEALTHY_H

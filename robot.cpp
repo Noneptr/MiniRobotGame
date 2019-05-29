@@ -20,7 +20,7 @@ Robot::Robot(const QString &Name, int Damage, int Health, int Exp,
     setHealth(Health);
     setExp(Exp);
 
-    _target = (*_gamefield)[posI() + 1][posJ()];
+    _target = (*_gamefield)[posI()][posJ()];
 }
 
 
@@ -80,9 +80,9 @@ void Robot::setGameField(QVector<QVector<Cell*>>* gamefield)
 {
     if (gamefield != nullptr)
     {
-        if (gamefield->size() > 1)
+        if (gamefield->size() > 0)
         {
-            if ((*gamefield)[0].size() > 1)
+            if ((*gamefield)[0].size() > 0)
             {
                 _gamefield = gamefield;
             }
@@ -305,7 +305,7 @@ void Robot::action()
             bool p4 = abs(posJ() - _target->j()) == 1;
             if (p1 || p2 || (p3 && p4))
             {
-                int c = qrand() % 2;
+                int c = rand() % 2;
 
                 if (c == 0)
                 {
@@ -373,6 +373,10 @@ void Robot::action()
                     }
                 }
             }
+        }
+        else
+        {
+            findNearestTarget(); // поиск ближайшей цели волновым алгоритмом
         }
     }
 }
