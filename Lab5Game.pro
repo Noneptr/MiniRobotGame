@@ -36,7 +36,9 @@ SOURCES += \
     exper.cpp \
     robot.cpp \
     algorithm_help_robot.cpp \
-    robotstandart.cpp
+    robotstandart.cpp \
+    robothealthy.cpp \
+    robotbullet.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -49,7 +51,9 @@ HEADERS += \
     exper.h \
     robot.h \
     algorithm_help_robot.h \
-    robotstandart.h
+    robotstandart.h \
+    robothealthy.h \
+    robotbullet.h
 
 FORMS += \
         mainwindow.ui

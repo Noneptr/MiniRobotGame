@@ -3,7 +3,7 @@
 
 #include "robot.h"
 
-//класс стандартная реализация потомок интерфейса Robot
+//класс RobotStandart реализация потомок интерфейса Robot
 
 class RobotStandart: public Robot
 {

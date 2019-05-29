@@ -6,8 +6,9 @@
 #include "healther.h"
 #include "damager.h"
 #include "exper.h"
-#include "robot.h"
 #include "robotstandart.h"
+#include "robothealthy.h"
+#include "robotbullet.h"
 
 namespace Ui {
 class MainWindow;
@@ -40,7 +41,8 @@ private:
     Ui::MainWindow *ui;
     GameField *scene;
     RobotStandart* robot;
-    Robot* robot2;
+    RobotHealthy* robot3;
+    RobotBullet* robot2;
 };
 
 #endif // MAINWINDOW_H

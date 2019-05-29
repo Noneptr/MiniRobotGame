@@ -209,7 +209,6 @@ RobotDirect Robot::defineDirect(const QPair<int, int> &p)
 void Robot::collect()
 {
     bool flag = false;
-    RobotDirect d = RDDown;
 
     QPair<int, int> curr(posI(), posJ());
     int m = _gamefield->size();
@@ -217,7 +216,7 @@ void Robot::collect()
 
     for (const QPair<int, int> &point: neighbours(curr, m, n))
     {
-        d = defineDirect(point);
+        setDirect(defineDirect(point));
 
         Cell* cell = (*_gamefield)[point.first][point.second];
 
@@ -231,7 +230,7 @@ void Robot::collect()
                     setHealth(health() + obj->health());
                     setDamage(damage() + obj->damage());
                     setExp(exp() + obj->exp());
-                    setPixmap(QPixmap(fileDir() + name() + "/alt_attack/" + QString::number(d) + ".png"));
+                    setPixmap(QPixmap(fileDir() + name() + "/alt_attack/" + QString::number(direct()) + ".png"));
                     cell->setMyObject(nullptr);
                     emit obj->deaded(obj);
                     flag = true;
@@ -251,7 +250,6 @@ void Robot::collect()
 void Robot::attack()
 {
     bool flag = false;
-    RobotDirect d = RDDown;
 
     QPair<int, int> curr(posI(), posJ());
     int m = _gamefield->size();
@@ -259,7 +257,7 @@ void Robot::attack()
 
     for (const QPair<int, int> &point: neighbours(curr, m, n))
     {
-        d = defineDirect(point);
+        setDirect(defineDirect(point));
 
         Cell* cell = (*_gamefield)[point.first][point.second];
 
@@ -271,7 +269,7 @@ void Robot::attack()
             {
                 if ((e == obj->name()) && (obj->name() != name()))
                 {
-                    setPixmap(QPixmap(fileDir() + name() + "/attack/" + QString::number(d) + ".png"));
+                    setPixmap(QPixmap(fileDir() + name() + "/attack/" + QString::number(direct()) + ".png"));
                     Robot * robot = static_cast<Robot*>(obj);
                     robot->setPixmap(QPixmap(robot->fileDir() + robot->name() + "/hpdown/"
                                              + QString::number(robot->direct()) + ".png"));

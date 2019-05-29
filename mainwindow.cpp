@@ -30,16 +30,25 @@ MainWindow::MainWindow(QWidget *parent) :
     robot->setNameResources({"exper", "healther", "damager"});
     robot->setNameEnemys({"robot2", "robot3"});
 
-    QGraphicsPixmapItem *r2 = new Robot("robot2", 1, 2, 4, 50, 50,
-                                            ":/rec/", scene->cells(), 6, 12, this);
-    robot2 = static_cast<Robot*>(r2);
+    QGraphicsPixmapItem *r2 = new RobotBullet(50, 50, scene->cells(), 8, 12, this);
+    robot2 = static_cast<RobotBullet*>(r2);
     scene->addItem(r2);
-    connect(robot2, &Robot::deaded, scene, &QGraphicsScene::removeItem);
+    connect(robot2, &RobotBullet::deaded, scene, &QGraphicsScene::removeItem);
     scene->addItem(robot2->damageBar());
     scene->addItem(robot2->healthBar());
     scene->addItem(robot2->expBar());
     robot2->setNameResources({"exper", "healther", "damager"});
     robot2->setNameEnemys({"robot1", "robot3"});
+
+    QGraphicsPixmapItem *r3 = new RobotHealthy(50, 50, scene->cells(), 5, 6, this);
+    robot3 = static_cast<RobotHealthy*>(r3);
+    scene->addItem(r3);
+    connect(robot3, &RobotHealthy::deaded, scene, &QGraphicsScene::removeItem);
+    scene->addItem(robot3->damageBar());
+    scene->addItem(robot3->healthBar());
+    scene->addItem(robot3->expBar());
+    robot3->setNameResources({"exper", "healther", "damager"});
+    robot3->setNameEnemys({"robot1", "robot2"});
 
     QGraphicsPixmapItem *h = new Healther(50, 50,this);
     Healther *hp = static_cast<Healther*>(h);
@@ -62,46 +71,6 @@ MainWindow::MainWindow(QWidget *parent) :
     (*scene->cells())[0][13]->setMyObject(ex);
     ex->setPos(650, 0);
     connect(ex, &Exper::deaded, scene, &QGraphicsScene::removeItem);
-
-//    std::cout << std::endl;
-//    for (int i = 0; i < scene->cells()->size(); i++)
-//    {
-//        for (int j = 0; j < (*scene->cells())[0].size(); j++)
-//        {
-//            Cell* cell = (*scene->cells())[i][j];
-//            GameUnit* obj = cell->MyObject();
-
-//            if (obj == nullptr)
-//            {
-//                std::cout << "* ";
-//            }
-//            else
-//            {
-//                if (obj->name() == "robot1")
-//                {
-//                    std::cout << "R ";
-//                }
-//                else if (obj->name() == "robot2")
-//                {
-//                    std::cout << "r ";
-//                }
-//                else if (obj->name() == "healther")
-//                {
-//                    std::cout << "+ ";
-//                }
-//                else if (obj->name() == "damager")
-//                {
-//                    std::cout << "# ";
-//                }
-//                else if (obj->name() == "exper")
-//                {
-//                    std::cout << "@ ";
-//                }
-//            }
-//        }
-//        std::cout << std::endl;
-//    }
-//    std::cout << std::endl;
 }
 
 MainWindow::~MainWindow()
@@ -145,12 +114,18 @@ void MainWindow::on_pushButton_6_clicked()
 
 void MainWindow::on_pushButton_7_clicked()
 {
-    if (robot2->health() > 0)
-    {
-        robot2->action();
-    }
     if (robot->health() > 0)
     {
         robot->action();
+    }
+
+    if (robot3->health() > 0)
+    {
+        robot3->action();
+    }
+
+    if (robot2->health() > 0)
+    {
+        robot2->action();
     }
 }
