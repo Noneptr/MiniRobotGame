@@ -35,7 +35,8 @@ SOURCES += \
     damager.cpp \
     exper.cpp \
     robot.cpp \
-    algorithm_help_robot.cpp
+    algorithm_help_robot.cpp \
+    robotstandart.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -47,7 +48,8 @@ HEADERS += \
     damager.h \
     exper.h \
     robot.h \
-    algorithm_help_robot.h
+    algorithm_help_robot.h \
+    robotstandart.h
 
 FORMS += \
         mainwindow.ui

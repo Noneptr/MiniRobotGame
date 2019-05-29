@@ -20,11 +20,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->graphicsView->setScene(scene);
 
-    QGraphicsPixmapItem *r = new Robot("robot1", 1, 2, 4, 50, 50,
-    ":/rec/", scene->cells(), 0, 0, this);
+    QGraphicsPixmapItem *r = new RobotStandart(50, 50, scene->cells(), 0, 0, this);
     scene->addItem(r);
-    robot = static_cast<Robot*>(r);
-    connect(robot, &Robot::deaded, scene, &QGraphicsScene::removeItem);
+    robot = static_cast<RobotStandart*>(r);
+    connect(robot, &RobotStandart::deaded, scene, &QGraphicsScene::removeItem);
     scene->addItem(robot->damageBar());
     scene->addItem(robot->healthBar());
     scene->addItem(robot->expBar());

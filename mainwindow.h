@@ -7,6 +7,7 @@
 #include "damager.h"
 #include "exper.h"
 #include "robot.h"
+#include "robotstandart.h"
 
 namespace Ui {
 class MainWindow;
@@ -38,7 +39,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     GameField *scene;
-    Robot* robot;
+    RobotStandart* robot;
     Robot* robot2;
 };
 
