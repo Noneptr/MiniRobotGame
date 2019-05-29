@@ -185,150 +185,107 @@ void Robot::move()
 }
 
 
-bool Robot::collection(int index, RobotDirect d)
+RobotDirect Robot::defineDirect(const QPair<int, int> &p)
 {
-    Cell* cell;
-
-
-    if ((d == RDUp) || (d == RDDown))
+    if (p.first > posI())
     {
-        cell = (*_gamefield)[index][posJ()];
+        return RDDown;
+    }
+    else if (p.first < posI())
+    {
+        return RDUp;
+    }
+    else if (p.second > posJ())
+    {
+        return RDRight;
     }
     else
     {
-        cell = (*_gamefield)[posI()][index];
+        return RDLeft;
     }
-
-
-    GameUnit *obj = cell->MyObject();
-    if (obj != nullptr)
-    {
-        for (QString &r : _name_recs)
-        {
-            if (r == obj->name())
-            {
-                setHealth(health() + obj->health());
-                setDamage(damage() + obj->damage());
-                setExp(exp() + obj->exp());
-                setPixmap(QPixmap(fileDir() + name() + "/alt_attack/" + QString::number(d) + ".png"));
-                cell->setMyObject(nullptr);
-                emit obj->deaded(obj);
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
-bool Robot::hit(int index, RobotDirect d)
-{
-    Cell* cell;
-
-
-    if ((d == RDUp) || (d == RDDown))
-    {
-        cell = (*_gamefield)[index][posJ()];
-    }
-    else
-    {
-        cell = (*_gamefield)[posI()][index];
-    }
-
-
-    GameUnit *obj = cell->MyObject();
-    if (obj != nullptr)
-    {
-        bool _flag = false;
-        for (QString &r : _name_recs)
-        {
-            if (r == obj->name())
-            {
-                _flag = true;
-                break;
-            }
-        }
-
-
-        if ((!_flag) && (obj->name() != name()))
-        {
-            setPixmap(QPixmap(fileDir() + name() + "/attack/" + QString::number(d) + ".png"));
-            Robot * robot = static_cast<Robot*>(obj);
-            robot->setPixmap(QPixmap(robot->fileDir() + robot->name() + "/hpdown/"
-                                     + QString::number(robot->direct()) + ".png"));
-            robot->setHealth(robot->health() - damage());
-            return true;
-        }
-    }
-
-    return false;
 }
 
 
 void Robot::collect()
 {
-    int i1 = posI() - 1;
-    int i2 = posI() + 1;
-    int j1 = posJ() - 1;
-    int j2 = posJ() + 1;
     bool flag = false;
+    RobotDirect d = RDDown;
 
+    QPair<int, int> curr(posI(), posJ());
+    int m = _gamefield->size();
+    int n = (*_gamefield)[0].size();
 
-    if ((i1 >= 0) && (!flag))
+    for (const QPair<int, int> &point: neighbours(curr, m, n))
     {
-        flag = collection(i1, RDUp);
-    }
+        d = defineDirect(point);
 
+        Cell* cell = (*_gamefield)[point.first][point.second];
 
-    if ((i2 < _gamefield->size())  && (!flag))
-    {
-        flag = collection(i2, RDDown);
-    }
+        GameUnit *obj = cell->MyObject();
+        if (obj != nullptr)
+        {
+            for (QString &r : _name_recs)
+            {
+                if (r == obj->name())
+                {
+                    setHealth(health() + obj->health());
+                    setDamage(damage() + obj->damage());
+                    setExp(exp() + obj->exp());
+                    setPixmap(QPixmap(fileDir() + name() + "/alt_attack/" + QString::number(d) + ".png"));
+                    cell->setMyObject(nullptr);
+                    emit obj->deaded(obj);
+                    flag = true;
+                    break;
+                }
+            }
 
-
-    if ((j1 >= 0) && (!flag))
-    {
-        flag = collection(j1, RDLeft);
-    }
-
-
-    if ((j2 < (*_gamefield)[0].size()) && (!flag))
-    {
-        flag = collection(j2, RDRight);
+            if (flag)
+            {
+                break;
+            }
+        }
     }
 }
 
 
 void Robot::attack()
 {
-    int i1 = posI() - 1;
-    int i2 = posI() + 1;
-    int j1 = posJ() - 1;
-    int j2 = posJ() + 1;
     bool flag = false;
+    RobotDirect d = RDDown;
 
+    QPair<int, int> curr(posI(), posJ());
+    int m = _gamefield->size();
+    int n = (*_gamefield)[0].size();
 
-    if ((i1 >= 0) && (!flag))
+    for (const QPair<int, int> &point: neighbours(curr, m, n))
     {
-        flag = hit(i1, RDUp);
-    }
+        d = defineDirect(point);
 
+        Cell* cell = (*_gamefield)[point.first][point.second];
 
-    if ((i2 < _gamefield->size())  && (!flag))
-    {
-        flag = hit(i2, RDDown);
-    }
+        GameUnit *obj = cell->MyObject();
 
+        if (obj != nullptr)
+        {
+            for (QString &e : _name_enemys)
+            {
+                if ((e == obj->name()) && (obj->name() != name()))
+                {
+                    setPixmap(QPixmap(fileDir() + name() + "/attack/" + QString::number(d) + ".png"));
+                    Robot * robot = static_cast<Robot*>(obj);
+                    robot->setPixmap(QPixmap(robot->fileDir() + robot->name() + "/hpdown/"
+                                             + QString::number(robot->direct()) + ".png"));
+                    robot->setHealth(robot->health() - damage());
+                    flag = true;
+                    break;
+                }
+            }
 
-    if ((j1 >= 0) && (!flag))
-    {
-        flag = hit(j1, RDLeft);
-    }
-
-
-    if ((j2 < (*_gamefield)[0].size()) && (!flag))
-    {
-        flag = hit(j2, RDRight);
+            if (flag)
+            {
+                break;
+            }
+        }
     }
 }
 

@@ -5,7 +5,6 @@
 #include "cell.h"
 #include <QGraphicsTextItem>
 #include "algorithm_help_robot.h"
-#include <iostream>
 
 //класс - интерфейс для создания роботов
 
@@ -30,21 +29,6 @@ protected:
     QVector<QString> _name_recs = {"exper", "healther", "damager"};
     QVector<QString> _name_enemys = {"robot2", "robot3"};
 
-
-protected slots:
-    void changeHealthBar();
-    void changeDamageBar();
-    void changeExpBar();
-
-
-    //========================методы взаимодействия с игровым полем и его объектами====================================
-protected:
-    bool collection(int index, RobotDirect d); // сбор ресурса
-    bool hit(int index, RobotDirect d); // атака
-    //=================================================================================================================
-
-
-protected:
     Cell* _target; // текущая цель робота
 
 public:
@@ -96,6 +80,17 @@ public:
     void findNearestTarget(); // поиск ближайшей цели волновым алгоритмом
     //========================================================================================================
 
+    //=======================вспомогательные методы======================================
+protected:
+    RobotDirect defineDirect(const QPair<int, int> &p); // определение направления к точке
+    //===================================================================================
+
+protected slots:
+    void changeHealthBar();
+    void changeDamageBar();
+    void changeExpBar();
+
+public:
     virtual ~Robot();
 };
 
