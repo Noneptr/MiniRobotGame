@@ -91,6 +91,9 @@ protected slots:
     void changeDamageBar();
     void changeExpBar();
 
+signals:
+    void deleteBar(QGraphicsTextItem*);
+
 public:
     virtual ~Robot();
 };

@@ -77,6 +77,7 @@ void GameField::createRobot()
                 addItem(r);
                 RobotStandart *robot = static_cast<RobotStandart*>(r);
                 connect(robot, &RobotStandart::deaded, this, &QGraphicsScene::removeItem);
+                connect(robot, &RobotStandart::deleteBar, this, &QGraphicsScene::removeItem);
                 connect(robot, &RobotStandart::deaded, robot, &RobotStandart::deleteLater);
                 addItem(robot->damageBar());
                 addItem(robot->healthBar());
@@ -87,6 +88,7 @@ void GameField::createRobot()
 
                 auto f = [this, robot]()->void{
                     disconnect(robot, &RobotStandart::deaded, this, &QGraphicsScene::removeItem);
+                    disconnect(robot, &RobotStandart::deleteBar, this, &QGraphicsScene::removeItem);
                     disconnect(robot, &RobotStandart::deaded, robot, &RobotStandart::deleteLater);
                     disconnect(&_timer, &QTimer::timeout, robot, &RobotStandart::action);};
 
@@ -98,6 +100,7 @@ void GameField::createRobot()
                 RobotBullet* robot = static_cast<RobotBullet*>(r);
                 addItem(r);
                 connect(robot, &RobotBullet::deaded, this, &QGraphicsScene::removeItem);
+                connect(robot, &RobotBullet::deleteBar, this, &QGraphicsScene::removeItem);
                 connect(robot, &RobotBullet::deaded, robot, &RobotBullet::deleteLater);
                 addItem(robot->damageBar());
                 addItem(robot->healthBar());
@@ -108,6 +111,7 @@ void GameField::createRobot()
 
                 auto f = [this, robot]()->void{
                     disconnect(robot, &RobotBullet::deaded, this, &QGraphicsScene::removeItem);
+                    disconnect(robot, &RobotBullet::deleteBar, this, &QGraphicsScene::removeItem);
                     disconnect(robot, &RobotBullet::deaded, robot, &RobotBullet::deleteLater);
                     disconnect(&_timer, &QTimer::timeout, robot, &RobotBullet::action);};
 
@@ -119,6 +123,7 @@ void GameField::createRobot()
                 RobotHealthy* robot = static_cast<RobotHealthy*>(r);
                 addItem(r);
                 connect(robot, &RobotHealthy::deaded, this, &QGraphicsScene::removeItem);
+                connect(robot, &RobotHealthy::deleteBar, this, &QGraphicsScene::removeItem);
                 connect(robot, &RobotHealthy::deaded, robot, &RobotHealthy::deleteLater);
                 addItem(robot->damageBar());
                 addItem(robot->healthBar());
@@ -129,6 +134,7 @@ void GameField::createRobot()
 
                 auto f = [this, robot]()->void{
                     disconnect(robot, &RobotHealthy::deaded, this, &QGraphicsScene::removeItem);
+                    disconnect(robot, &RobotHealthy::deleteBar, this, &QGraphicsScene::removeItem);
                     disconnect(robot, &RobotHealthy::deaded, robot, &RobotHealthy::deleteLater);
                     disconnect(&_timer, &QTimer::timeout, robot, &RobotHealthy::action);};
 

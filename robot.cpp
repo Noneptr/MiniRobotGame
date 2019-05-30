@@ -232,7 +232,11 @@ void Robot::collect()
                     setExp(exp() + obj->exp());
                     setPixmap(QPixmap(fileDir() + name() + "/alt_attack/" + QString::number(direct()) + ".png"));
                     cell->setMyObject(nullptr);
-                    emit obj->deaded(obj);
+
+                    QGraphicsPixmapItem* gpi = obj;
+                    emit obj->deaded(gpi);
+                    gpi = nullptr;
+
                     flag = true;
                     break;
                 }
@@ -400,10 +404,12 @@ void Robot::setHealth(int h)
     if (_health <= 0)
     {
         /*полное уничтожение робота*/
-        emit deaded(healthBar());
-        emit deaded(damageBar());
-        emit deaded(expBar());
-        emit deaded(this);
+        emit deleteBar(healthBar());
+        emit deleteBar(damageBar());
+        emit deleteBar(expBar());
+        QGraphicsPixmapItem* gpi = this;
+        emit deaded(gpi);
+        gpi = nullptr;
         (*_gamefield)[_ii][_jj]->setMyObject(nullptr);
     }
 
