@@ -27,7 +27,7 @@ GameField::GameField(qreal x, qreal y, qreal width, qreal height,
         connect(&_timer, &QTimer::timeout, this, &GameField::createResource);
         connect(&_timer, &QTimer::timeout, this, &GameField::createRobot);
     }
-    catch(std::bad_alloc error)
+    catch(std::exception error)
     {
         qDebug() << "Cell new ERROR" << endl;
     }
@@ -63,6 +63,7 @@ void GameField::stopGame()
 
 void GameField::setIntervalGame(int interval)
 {
+    _timer.stop();
     _timer.setInterval(interval);
 }
 
@@ -152,7 +153,7 @@ void GameField::createRobot()
             }
         }
     }
-    catch(std::bad_alloc error)
+    catch(std::exception error)
     {
         qDebug() << "Robot new ERROR!!!" << endl;
     }
@@ -228,7 +229,7 @@ void GameField::createResource()
             }
         }
     }
-    catch(std::bad_alloc error)
+    catch(std::exception error)
     {
         qDebug() << "Resource new ERROR!!!" << endl;
     }

@@ -577,4 +577,6 @@ QGraphicsTextItem *Robot::expBar()
 
 Robot::~Robot()
 {
+    _target = nullptr;
+    _gamefield = nullptr;
 }
