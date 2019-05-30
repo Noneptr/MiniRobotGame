@@ -44,4 +44,5 @@ GameUnit* Cell::MyObject() const
 
 Cell::~Cell()
 {
+    qDebug() << "Cell {" << i() << "; " << j() << "} destroyed!!!" << endl;
 }
