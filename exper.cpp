@@ -21,5 +21,4 @@ void Exper::setExp(int e)
 
 Exper::~Exper()
 {
-    qDebug() << "Exper destroyed!!!" << endl;
 }

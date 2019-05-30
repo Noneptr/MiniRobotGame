@@ -83,7 +83,7 @@ void GameField::createRobot()
 
                 if (name == "rstd")
                 {
-                    QGraphicsPixmapItem *r = new RobotStandart(50, 50, &_cells, si, sj, this);
+                    Robot *r = new RobotStandart(50, 50, &_cells, si, sj, this);
                     addItem(r);
                     RobotStandart *robot = static_cast<RobotStandart*>(r);
                     connect(robot, &RobotStandart::deaded, this, &QGraphicsScene::removeItem);
@@ -106,7 +106,7 @@ void GameField::createRobot()
                 }
                 else if (name == "rbul")
                 {
-                    QGraphicsPixmapItem *r = new RobotBullet(50, 50, &_cells, si, sj, this);
+                    Robot *r = new RobotBullet(50, 50, &_cells, si, sj, this);
                     RobotBullet* robot = static_cast<RobotBullet*>(r);
                     addItem(r);
                     connect(robot, &RobotBullet::deaded, this, &QGraphicsScene::removeItem);
@@ -129,7 +129,7 @@ void GameField::createRobot()
                 }
                 else
                 {
-                    QGraphicsPixmapItem *r = new RobotHealthy(50, 50, &_cells, si, sj, this);
+                    Robot *r = new RobotHealthy(50, 50, &_cells, si, sj, this);
                     RobotHealthy* robot = static_cast<RobotHealthy*>(r);
                     addItem(r);
                     connect(robot, &RobotHealthy::deaded, this, &QGraphicsScene::removeItem);
@@ -238,5 +238,4 @@ void GameField::createResource()
 
 GameField::~GameField()
 {
-    qDebug() << "GameField destroyed!!!" << endl;
 }

@@ -8,5 +8,4 @@ RobotHealthy::RobotHealthy(int Width, int Height, QVector<QVector<Cell *>> *game
 
 RobotHealthy::~RobotHealthy()
 {
-    qDebug() << "RobotHealthy destroyed!!!" << endl;
 }
