@@ -33,6 +33,7 @@ public slots:
     void playStepGame();
     void stopGame();
     void setIntervalGame(int interval);
+    ~GameField();
 };
 
 #endif // GAMEFIELD_H
