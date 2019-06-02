@@ -27,7 +27,7 @@ GameField::GameField(qreal x, qreal y, qreal width, qreal height,
         connect(&_timer, &QTimer::timeout, this, &GameField::createResource);
         connect(&_timer, &QTimer::timeout, this, &GameField::createRobot);
     }
-    catch(std::exception error)
+    catch(...)
     {
         qDebug() << "Cell new ERROR" << endl;
     }
@@ -83,7 +83,7 @@ void GameField::createRobot()
 
                 if (name == "rstd")
                 {
-                    Robot *r = new RobotStandart(50, 50, &_cells, si, sj, this);
+                    QGraphicsPixmapItem *r = new RobotStandart(50, 50, &_cells, si, sj, this);
                     addItem(r);
                     RobotStandart *robot = static_cast<RobotStandart*>(r);
                     connect(robot, &RobotStandart::deaded, this, &QGraphicsScene::removeItem);
@@ -106,7 +106,7 @@ void GameField::createRobot()
                 }
                 else if (name == "rbul")
                 {
-                    Robot *r = new RobotBullet(50, 50, &_cells, si, sj, this);
+                    QGraphicsPixmapItem *r = new RobotBullet(50, 50, &_cells, si, sj, this);
                     RobotBullet* robot = static_cast<RobotBullet*>(r);
                     addItem(r);
                     connect(robot, &RobotBullet::deaded, this, &QGraphicsScene::removeItem);
@@ -129,7 +129,7 @@ void GameField::createRobot()
                 }
                 else
                 {
-                    Robot *r = new RobotHealthy(50, 50, &_cells, si, sj, this);
+                    QGraphicsPixmapItem *r = new RobotHealthy(50, 50, &_cells, si, sj, this);
                     RobotHealthy* robot = static_cast<RobotHealthy*>(r);
                     addItem(r);
                     connect(robot, &RobotHealthy::deaded, this, &QGraphicsScene::removeItem);
@@ -153,7 +153,7 @@ void GameField::createRobot()
             }
         }
     }
-    catch(std::exception error)
+    catch(...)
     {
         qDebug() << "Robot new ERROR!!!" << endl;
     }
@@ -229,7 +229,7 @@ void GameField::createResource()
             }
         }
     }
-    catch(std::exception error)
+    catch(...)
     {
         qDebug() << "Resource new ERROR!!!" << endl;
     }
