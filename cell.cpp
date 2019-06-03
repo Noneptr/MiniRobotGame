@@ -44,4 +44,5 @@ GameUnit* Cell::MyObject() const
 
 Cell::~Cell()
 {
+    my_obj = nullptr;
 }

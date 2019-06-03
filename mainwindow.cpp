@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     this->setMinimumWidth(win_w);
     this->setMinimumHeight(win_h);
     ui->graphicsView->setGeometry(0, 0, 702, 502);
-    int interval = 50;
+    int interval = 25;
     scene = new GameField(ui->graphicsView->x() - 1, ui->graphicsView->y() - 1,
                                           ui->graphicsView->width(), ui->graphicsView->height(),
                                             50, interval, this);
@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    delete scene;
     delete ui;
 }
 

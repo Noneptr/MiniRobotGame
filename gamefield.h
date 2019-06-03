@@ -23,6 +23,9 @@ private:
     QVector<QString> nrobots = {"rstd", "rbul", "rhp"};
     QVector<QString> nresources = {"hp", "exp", "dmg"};
     int _ticks = 0;
+
+    Robot* robot = nullptr;
+    GameUnit* rec = nullptr;
 public:
     GameField(qreal x, qreal y, qreal width, qreal height,
               int size_cell, int interval, QObject *parent = nullptr);
@@ -33,6 +36,8 @@ public slots:
     void playStepGame();
     void stopGame();
     void setIntervalGame(int interval);
+
+public:
     ~GameField();
 };
 

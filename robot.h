@@ -30,7 +30,7 @@ protected:
     QVector<QString> _name_recs = {"exper", "healther", "damager"};
     QVector<QString> _name_enemys = {"robot2", "robot3"};
 
-    Cell* _target; // текущая цель робота
+    Cell* _target = nullptr; // текущая цель робота
 
 public:
     Robot(const QString &Name, int Damage, int Health, int Exp,
@@ -90,6 +90,10 @@ protected slots:
     void changeHealthBar();
     void changeDamageBar();
     void changeExpBar();
+
+signals:
+    void deaded(Robot*);
+    void deleteBar(QGraphicsTextItem*);
 
 public:
     virtual ~Robot();

@@ -232,7 +232,9 @@ void Robot::collect()
                     setExp(exp() + obj->exp());
                     setPixmap(QPixmap(fileDir() + name() + "/alt_attack/" + QString::number(direct()) + ".png"));
                     cell->setMyObject(nullptr);
+
                     emit obj->deaded(obj);
+
                     flag = true;
                     break;
                 }
@@ -270,10 +272,7 @@ void Robot::attack()
                 if ((e == obj->name()) && (obj->name() != name()))
                 {
                     setPixmap(QPixmap(fileDir() + name() + "/attack/" + QString::number(direct()) + ".png"));
-                    Robot * robot = static_cast<Robot*>(obj);
-                    robot->setPixmap(QPixmap(robot->fileDir() + robot->name() + "/hpdown/"
-                                             + QString::number(robot->direct()) + ".png"));
-                    robot->setHealth(robot->health() - damage());
+                    obj->setHealth(obj->health() - damage());
                     flag = true;
                     break;
                 }
@@ -400,9 +399,9 @@ void Robot::setHealth(int h)
     if (_health <= 0)
     {
         /*полное уничтожение робота*/
-        emit deaded(healthBar());
-        emit deaded(damageBar());
-        emit deaded(expBar());
+        emit deleteBar(healthBar());
+        emit deleteBar(damageBar());
+        emit deleteBar(expBar());
         emit deaded(this);
         (*_gamefield)[_ii][_jj]->setMyObject(nullptr);
     }
@@ -571,4 +570,6 @@ QGraphicsTextItem *Robot::expBar()
 
 Robot::~Robot()
 {
+    _target = nullptr;
+    _gamefield = nullptr;
 }
