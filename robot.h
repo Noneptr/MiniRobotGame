@@ -92,6 +92,7 @@ protected slots:
     void changeExpBar();
 
 signals:
+    void deaded(Robot*);
     void deleteBar(QGraphicsTextItem*);
 
 public:

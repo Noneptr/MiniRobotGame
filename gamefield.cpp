@@ -81,75 +81,43 @@ void GameField::createRobot()
                 int s = rand() % nrobots.size();
                 QString &name = nrobots[s];
 
+                Robot* robot;
+
                 if (name == "rstd")
                 {
-                    QGraphicsPixmapItem *r = new RobotStandart(50, 50, &_cells, si, sj, this);
-                    addItem(r);
-                    RobotStandart *robot = static_cast<RobotStandart*>(r);
-                    connect(robot, &RobotStandart::deaded, this, &QGraphicsScene::removeItem);
-                    connect(robot, &RobotStandart::deleteBar, this, &QGraphicsScene::removeItem);
-                    connect(robot, &RobotStandart::deaded, robot, &RobotStandart::deleteLater);
-                    addItem(robot->damageBar());
-                    addItem(robot->healthBar());
-                    addItem(robot->expBar());
+                    robot = new RobotStandart(50, 50, &_cells, si, sj, this);
                     robot->setNameResources({"exper", "healther", "damager"});
                     robot->setNameEnemys({"robot2", "robot3"});
-                    connect(&_timer, &QTimer::timeout, robot, &RobotStandart::action);
-
-                    auto f = [this, robot]()->void{
-                        disconnect(robot, &RobotStandart::deaded, this, &QGraphicsScene::removeItem);
-                        disconnect(robot, &RobotStandart::deleteBar, this, &QGraphicsScene::removeItem);
-                        disconnect(robot, &RobotStandart::deaded, robot, &RobotStandart::deleteLater);
-                        disconnect(&_timer, &QTimer::timeout, robot, &RobotStandart::action);};
-
-                    connect(robot, &RobotStandart::destroyed, f);
                 }
                 else if (name == "rbul")
                 {
-                    QGraphicsPixmapItem *r = new RobotBullet(50, 50, &_cells, si, sj, this);
-                    RobotBullet* robot = static_cast<RobotBullet*>(r);
-                    addItem(r);
-                    connect(robot, &RobotBullet::deaded, this, &QGraphicsScene::removeItem);
-                    connect(robot, &RobotBullet::deleteBar, this, &QGraphicsScene::removeItem);
-                    connect(robot, &RobotBullet::deaded, robot, &RobotBullet::deleteLater);
-                    addItem(robot->damageBar());
-                    addItem(robot->healthBar());
-                    addItem(robot->expBar());
+                    robot = new RobotBullet(50, 50, &_cells, si, sj, this);
                     robot->setNameResources({"exper", "healther", "damager"});
                     robot->setNameEnemys({"robot1", "robot3"});
-                    connect(&_timer, &QTimer::timeout, robot, &RobotBullet::action);
-
-                    auto f = [this, robot]()->void{
-                        disconnect(robot, &RobotBullet::deaded, this, &QGraphicsScene::removeItem);
-                        disconnect(robot, &RobotBullet::deleteBar, this, &QGraphicsScene::removeItem);
-                        disconnect(robot, &RobotBullet::deaded, robot, &RobotBullet::deleteLater);
-                        disconnect(&_timer, &QTimer::timeout, robot, &RobotBullet::action);};
-
-                    connect(robot, &RobotBullet::destroyed, f);
                 }
                 else
                 {
-                    QGraphicsPixmapItem *r = new RobotHealthy(50, 50, &_cells, si, sj, this);
-                    RobotHealthy* robot = static_cast<RobotHealthy*>(r);
-                    addItem(r);
-                    connect(robot, &RobotHealthy::deaded, this, &QGraphicsScene::removeItem);
-                    connect(robot, &RobotHealthy::deleteBar, this, &QGraphicsScene::removeItem);
-                    connect(robot, &RobotHealthy::deaded, robot, &RobotHealthy::deleteLater);
-                    addItem(robot->damageBar());
-                    addItem(robot->healthBar());
-                    addItem(robot->expBar());
+                    robot = new RobotHealthy(50, 50, &_cells, si, sj, this);
                     robot->setNameResources({"exper", "healther", "damager"});
                     robot->setNameEnemys({"robot1", "robot2"});
-                    connect(&_timer, &QTimer::timeout, robot, &RobotHealthy::action);
-
-                    auto f = [this, robot]()->void{
-                        disconnect(robot, &RobotHealthy::deaded, this, &QGraphicsScene::removeItem);
-                        disconnect(robot, &RobotHealthy::deleteBar, this, &QGraphicsScene::removeItem);
-                        disconnect(robot, &RobotHealthy::deaded, robot, &RobotHealthy::deleteLater);
-                        disconnect(&_timer, &QTimer::timeout, robot, &RobotHealthy::action);};
-
-                    connect(robot, &RobotHealthy::destroyed, f);
                 }
+
+                addItem(robot);
+                addItem(robot->damageBar());
+                addItem(robot->healthBar());
+                addItem(robot->expBar());
+
+                connect(robot, &Robot::deaded, this, &GameField::removeItem);
+                connect(robot, &Robot::deleteBar, this, &GameField::removeItem);
+                connect(robot, &Robot::deaded, robot, &Robot::deleteLater);
+                connect(&_timer, &QTimer::timeout, robot, &Robot::action);
+                auto f = [this, robot]()->void{
+                    disconnect(robot, &Robot::deaded, this, &GameField::removeItem);
+                    disconnect(robot, &Robot::deleteBar, this, &GameField::removeItem);
+                    disconnect(robot, &Robot::deaded, robot, &Robot::deleteLater);
+                    disconnect(&_timer, &QTimer::timeout, robot, &Robot::action);};
+
+                connect(robot, &Robot::destroyed, f);
             }
         }
     }
@@ -178,54 +146,38 @@ void GameField::createResource()
                 int s = rand() % nresources.size();
                 QString &name = nresources[s];
 
+                GameUnit* rec;
+
                 if (name == "exp")
                 {
-                    QGraphicsPixmapItem *e = new Exper(50, 50,this);
-                    Exper *ex = static_cast<Exper*>(e);
-                    addItem(e);
-                    cell->setMyObject(ex);
-                    ex->setPos(sj * size_cell, si * size_cell);
-                    connect(ex, &Exper::deaded, this, &QGraphicsScene::removeItem);
-                    connect(ex, &Exper::deaded, ex, &Exper::deleteLater);
-
-                    auto f = [this, ex]()->void{
-                        disconnect(ex, &Exper::deaded, this, &QGraphicsScene::removeItem);
-                        disconnect(ex, &Exper::deaded, ex, &Exper::deleteLater);};
-
-                    connect(ex, &Exper::destroyed, f);
+                    rec = new Exper(50, 50,this);
+                    addItem(rec);
+                    cell->setMyObject(rec);
+                    rec->setPos(sj * size_cell, si * size_cell);
                 }
                 else if (name == "hp")
                 {
-                    QGraphicsPixmapItem *h = new Healther(50, 50,this);
-                    Healther *hp = static_cast<Healther*>(h);
-                    addItem(h);
-                    cell->setMyObject(hp);
-                    hp->setPos(sj * size_cell, si * size_cell);
-                    connect(hp, &Healther::deaded, this, &QGraphicsScene::removeItem);
-                    connect(hp, &Healther::deaded, hp, &Healther::deleteLater);
-
-                    auto f = [this, hp]()->void{
-                        disconnect(hp, &Healther::deaded, this, &QGraphicsScene::removeItem);
-                        disconnect(hp, &Healther::deaded, hp, &Healther::deleteLater);};
-
-                    connect(hp, &Healther::destroyed, f);
+                    rec = new Healther(50, 50,this);
+                    addItem(rec);
+                    cell->setMyObject(rec);
+                    rec->setPos(sj * size_cell, si * size_cell);
                 }
                 else
                 {
-                    QGraphicsPixmapItem *d = new Damager(50, 50,this);
-                    Damager *dmg = static_cast<Damager*>(d);
-                    addItem(d);
-                    cell->setMyObject(dmg);
-                    dmg->setPos(sj * size_cell, si * size_cell);
-                    connect(dmg, &Damager::deaded, this, &QGraphicsScene::removeItem);
-                    connect(dmg, &Damager::deaded, dmg, &Damager::deleteLater);
-
-                    auto f = [this, dmg]()->void{
-                        disconnect(dmg, &Damager::deaded, this, &QGraphicsScene::removeItem);
-                        disconnect(dmg, &Damager::deaded, dmg, &Damager::deleteLater);};
-
-                    connect(dmg, &Damager::destroyed, f);
+                    rec = new Damager(50, 50,this);
+                    addItem(rec);
+                    cell->setMyObject(rec);
+                    rec->setPos(sj * size_cell, si * size_cell);
                 }
+
+                connect(rec, &GameUnit::deaded, this, &GameField::removeItem);
+                connect(rec, &GameUnit::deaded, rec, &GameUnit::deleteLater);
+
+                auto f = [this, rec]()->void{
+                    disconnect(rec, &GameUnit::deaded, this, &GameField::removeItem);
+                    disconnect(rec, &GameUnit::deaded, rec, &GameUnit::deleteLater);};
+
+                connect(rec, &GameUnit::destroyed, f);
             }
         }
     }
