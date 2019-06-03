@@ -32,14 +32,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_bt_play_game_clicked()
 {
-    try
-    {
-        scene->playGame();
-    }
-    catch(...)
-    {
-        qDebug() << "Kak mne bit?" << endl;
-    }
+    scene->playGame();
 }
 
 void MainWindow::on_bt_play_step_clicked()
