@@ -1,0 +1,44 @@
+<RCC>
+    <qresource prefix="/rec">
+        <file>resources/cell.png</file>
+        <file>resources/dmg.png</file>
+        <file>resources/exp.png</file>
+        <file>resources/hp.png</file>
+        <file>robot1/alt_attack/0.png</file>
+        <file>robot1/alt_attack/1.png</file>
+        <file>robot1/alt_attack/2.png</file>
+        <file>robot1/alt_attack/3.png</file>
+        <file>robot1/attack/0.png</file>
+        <file>robot1/attack/1.png</file>
+        <file>robot1/attack/2.png</file>
+        <file>robot1/attack/3.png</file>
+        <file>robot1/state/0.png</file>
+        <file>robot1/state/1.png</file>
+        <file>robot1/state/2.png</file>
+        <file>robot1/state/3.png</file>
+        <file>robot2/alt_attack/0.png</file>
+        <file>robot2/alt_attack/1.png</file>
+        <file>robot2/alt_attack/2.png</file>
+        <file>robot2/alt_attack/3.png</file>
+        <file>robot2/attack/0.png</file>
+        <file>robot2/attack/1.png</file>
+        <file>robot2/attack/2.png</file>
+        <file>robot2/attack/3.png</file>
+        <file>robot2/state/0.png</file>
+        <file>robot2/state/1.png</file>
+        <file>robot2/state/2.png</file>
+        <file>robot2/state/3.png</file>
+        <file>robot3/alt_attack/0.png</file>
+        <file>robot3/alt_attack/1.png</file>
+        <file>robot3/alt_attack/2.png</file>
+        <file>robot3/alt_attack/3.png</file>
+        <file>robot3/attack/0.png</file>
+        <file>robot3/attack/1.png</file>
+        <file>robot3/attack/2.png</file>
+        <file>robot3/attack/3.png</file>
+        <file>robot3/state/0.png</file>
+        <file>robot3/state/1.png</file>
+        <file>robot3/state/2.png</file>
+        <file>robot3/state/3.png</file>
+    </qresource>
+</RCC>

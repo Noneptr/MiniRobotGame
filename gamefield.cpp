@@ -151,24 +151,19 @@ void GameField::createResource()
                 if (name == "exp")
                 {
                     rec = new Exper(50, 50,this);
-                    addItem(rec);
-                    cell->setMyObject(rec);
-                    rec->setPos(sj * size_cell, si * size_cell);
                 }
                 else if (name == "hp")
                 {
                     rec = new Healther(50, 50,this);
-                    addItem(rec);
-                    cell->setMyObject(rec);
-                    rec->setPos(sj * size_cell, si * size_cell);
                 }
                 else
                 {
                     rec = new Damager(50, 50,this);
-                    addItem(rec);
-                    cell->setMyObject(rec);
-                    rec->setPos(sj * size_cell, si * size_cell);
                 }
+
+                addItem(rec);
+                cell->setMyObject(rec);
+                rec->setPos(sj * size_cell, si * size_cell);
 
                 connect(rec, &GameUnit::deaded, this, &GameField::removeItem);
                 connect(rec, &GameUnit::deaded, rec, &GameUnit::deleteLater);
