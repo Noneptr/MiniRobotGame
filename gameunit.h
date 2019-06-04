@@ -2,7 +2,7 @@
 #define GAMEUNIT_H
 
 #include "gameobject.h"
-#include <QDebug>
+// класс игровая единица, производный класс для создания объектов в игре
 
 class GameUnit: public GameObject
 {

@@ -399,14 +399,13 @@ void Robot::setHealth(int h)
     if (_health <= 0)
     {
         /*полное уничтожение робота*/
-        emit deleteBar(healthBar());
-        emit deleteBar(damageBar());
-        emit deleteBar(expBar());
-        emit deaded(this);
         (*_gamefield)[_ii][_jj]->setMyObject(nullptr);
+        emit deaded(this);
     }
-
-    emit changedHealth();
+    else
+    {
+        emit changedHealth();
+    }
 }
 
 

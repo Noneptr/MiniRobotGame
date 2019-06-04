@@ -2,7 +2,7 @@
 
 RobotBullet::RobotBullet(int Width, int Height, QVector<QVector<Cell *>> *gamefield,
                          int PosI, int PosJ, QObject *parent)
-  :Robot("robot2", 10, 1, 9, Width, Height, ":/rec/", gamefield, PosI, PosJ, parent)
+  :Robot("robot2", 1, 1, 1, Width, Height, ":/rec/", gamefield, PosI, PosJ, parent)
 {
 }
 

@@ -93,7 +93,6 @@ protected slots:
 
 signals:
     void deaded(Robot*);
-    void deleteBar(QGraphicsTextItem*);
 
 public:
     virtual ~Robot();

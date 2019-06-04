@@ -36,6 +36,8 @@ public slots:
     void playStepGame();
     void stopGame();
     void setIntervalGame(int interval);
+    void removeItemRobot(Robot *r);
+    void removeItemGameUnit(GameUnit *obj);
 
 public:
     ~GameField();

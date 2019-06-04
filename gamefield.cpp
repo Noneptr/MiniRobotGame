@@ -60,6 +60,26 @@ void GameField::setIntervalGame(int interval)
     _timer.setInterval(interval);
 }
 
+
+void GameField::removeItemRobot(Robot *r)
+{
+    this->removeItem(r);
+    this->removeItem(r->healthBar());
+    this->removeItem(r->damageBar());
+    this->removeItem(r->expBar());
+    disconnect(&_timer, &QTimer::timeout, r, &Robot::action);
+    delete r;
+    r = nullptr;
+}
+
+void GameField::removeItemGameUnit(GameUnit *obj)
+{
+    this->removeItem(obj);
+    delete obj;
+    obj = nullptr;
+}
+
+
 void GameField::createRobot()
 {
     if (_ticks % 6 == 0)
@@ -96,10 +116,8 @@ void GameField::createRobot()
             addItem(robot->healthBar());
             addItem(robot->expBar());
 
-            connect(robot, &Robot::deaded, this, &GameField::removeItem);
-            connect(robot, &Robot::deleteBar, this, &GameField::removeItem);
-            connect(robot, &Robot::deaded, robot, &Robot::deleteLater);
             connect(&_timer, &QTimer::timeout, robot, &Robot::action);
+            connect(robot, &Robot::deaded, this, &GameField::removeItemRobot);
             robot = nullptr;
         }
     }
@@ -139,8 +157,7 @@ void GameField::createResource()
             cell->setMyObject(rec);
             rec->setPos(sj * size_cell, si * size_cell);
 
-            connect(rec, &GameUnit::deaded, this, &GameField::removeItem);
-            connect(rec, &GameUnit::deaded, rec, &GameUnit::deleteLater);
+            connect(rec, &GameUnit::deaded, this, &GameField::removeItemGameUnit);
             rec = nullptr;
         }
     }
@@ -149,15 +166,9 @@ void GameField::createResource()
 
 GameField::~GameField()
 {
-    if (rec != nullptr)
-    {
-        delete rec;
-        rec = nullptr;
-    }
+    delete rec;
+    rec = nullptr;
 
-    if (robot != nullptr)
-    {
-        delete robot;
-        robot = nullptr;
-    }
+    delete robot;
+    robot = nullptr;
 }
