@@ -87,26 +87,30 @@ void GameField::createRobot()
         int si = rand() % _cells.size();
         int sj = rand() % _cells[0].size();
 
-        if (_cells[si][sj]->MyObject() == nullptr)
+        Cell *cell = _cells[si][sj];
+
+        if (cell->MyObject() == nullptr)
         {
+            int size_cell = cell->width();
+
             int s = rand() % nrobots.size();
             QString &name = nrobots[s];
 
             if (name == "rstd")
             {
-                robot = new RobotStandart(50, 50, &_cells, si, sj, this);
+                robot = new RobotStandart(size_cell, size_cell, &_cells, si, sj, this);
                 robot->setNameResources({"exper", "healther", "damager"});
                 robot->setNameEnemys({"robot2", "robot3"});
             }
             else if (name == "rbul")
             {
-                robot = new RobotBullet(50, 50, &_cells, si, sj, this);
+                robot = new RobotBullet(size_cell, size_cell, &_cells, si, sj, this);
                 robot->setNameResources({"exper", "healther", "damager"});
                 robot->setNameEnemys({"robot1", "robot3"});
             }
             else
             {
-                robot = new RobotHealthy(50, 50, &_cells, si, sj, this);
+                robot = new RobotHealthy(size_cell, size_cell, &_cells, si, sj, this);
                 robot->setNameResources({"exper", "healther", "damager"});
                 robot->setNameEnemys({"robot1", "robot2"});
             }
@@ -142,15 +146,15 @@ void GameField::createResource()
 
             if (name == "exp")
             {
-                rec = new Exper(50, 50,this);
+                rec = new Exper(size_cell, size_cell,this);
             }
             else if (name == "hp")
             {
-                rec = new Healther(50, 50,this);
+                rec = new Healther(size_cell, size_cell,this);
             }
             else
             {
-                rec = new Damager(50, 50,this);
+                rec = new Damager(size_cell, size_cell,this);
             }
 
             addItem(rec);
