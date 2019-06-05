@@ -3,13 +3,13 @@
 
 #include "gameunit.h"
 
-// ячейка, плитка игрового поля
+//класс - ячейка, плитка игрового поля
 
 class Cell: public GameObject
 {
     Q_OBJECT
 private:
-    GameUnit *my_obj;
+    GameUnit *my_obj; // игровая единица, стоящая в текущей ячейки
     int _i, _j; // индексы ячейки
 public:
     Cell(int Width, int Height, int ii, int jj, const QPixmap &pixmap,
