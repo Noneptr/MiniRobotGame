@@ -25,6 +25,8 @@ private slots:
 
     void on_sb_interval_valueChanged(int arg1);
 
+    void on_bt_clear_game_clicked();
+
 private:
     Ui::MainWindow *ui;
     GameField *scene;

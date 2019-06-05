@@ -49,3 +49,8 @@ void MainWindow::on_sb_interval_valueChanged(int arg1)
 {
     scene->setIntervalGame(arg1);
 }
+
+void MainWindow::on_bt_clear_game_clicked()
+{
+    scene->clearCells();
+}

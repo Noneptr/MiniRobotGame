@@ -8,4 +8,5 @@ RobotStandart::RobotStandart(int Width, int Height, QVector<QVector<Cell *>> *ga
 
 RobotStandart::~RobotStandart()
 {
+    cout << "RobotStandart destroyed!!!" << endl;
 }

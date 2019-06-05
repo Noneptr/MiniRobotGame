@@ -8,4 +8,5 @@ RobotBullet::RobotBullet(int Width, int Height, QVector<QVector<Cell *>> *gamefi
 
 RobotBullet::~RobotBullet()
 {
+    cout << "RobotBullet destroyed!!!" << endl;
 }

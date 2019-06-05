@@ -21,4 +21,5 @@ void Exper::setExp(int e)
 
 Exper::~Exper()
 {
+    cout << "Exper destroyed!!!" << endl;
 }

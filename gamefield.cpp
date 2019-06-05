@@ -61,6 +61,43 @@ void GameField::setIntervalGame(int interval)
 }
 
 
+void GameField::clearCells()
+{
+    _timer.stop();
+
+    for (int i = 0; i < _cells.size(); i++)
+    {
+        for (int j = 0; j < _cells[0].size(); j++)
+        {
+            GameUnit *obj = _cells[i][j]->MyObject();
+            if (obj != nullptr)
+            {
+                _cells[i][j]->setMyObject(nullptr);
+                bool flag = false;
+                for (const QString &name: nresources)
+                {
+                    if (obj->name() == name)
+                    {
+                        emit obj->deaded(obj);
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if (flag)
+                {
+                    continue;
+                }
+                else
+                {
+                    obj->setHealth(0);
+                }
+            }
+        }
+    }
+}
+
+
 void GameField::removeItemRobot(Robot *r)
 {
     this->removeItem(r);
@@ -96,13 +133,13 @@ void GameField::createRobot()
             int s = rand() % nrobots.size();
             QString &name = nrobots[s];
 
-            if (name == "rstd")
+            if (name == "robot1")
             {
                 robot = new RobotStandart(size_cell, size_cell, &_cells, si, sj, this);
                 robot->setNameResources({"exper", "healther", "damager"});
                 robot->setNameEnemys({"robot2", "robot3"});
             }
-            else if (name == "rbul")
+            else if (name == "robot2")
             {
                 robot = new RobotBullet(size_cell, size_cell, &_cells, si, sj, this);
                 robot->setNameResources({"exper", "healther", "damager"});
@@ -144,11 +181,11 @@ void GameField::createResource()
             int s = rand() % nresources.size();
             QString &name = nresources[s];
 
-            if (name == "exp")
+            if (name == "exper")
             {
                 rec = new Exper(size_cell, size_cell,this);
             }
-            else if (name == "hp")
+            else if (name == "healther")
             {
                 rec = new Healther(size_cell, size_cell,this);
             }
