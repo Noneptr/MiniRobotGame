@@ -9,7 +9,7 @@
 
 //класс - интерфейс для создания роботов
 
-enum RobotDirect {RDDown, RDUp, RDLeft, RDRight}; // перечислимы тип направлений движения робота
+enum RobotDirect {RDDown, RDUp, RDLeft, RDRight};       // перечислимы тип направлений движения робота
 
 enum RobotError {NotRightGameFieldError, NotPointGameFieldError,
                  QVectorSizeError, NotNamesResourcesError, NotNamesEnemysError}; // перечислимый тип ошибок класа робот
@@ -18,19 +18,19 @@ class Robot: public GameUnit
 {
     Q_OBJECT
 protected:
-    int _ii, _jj; // индексы текущей клетки
-    RobotDirect _direct;  // направление робота
-    QVector<QVector<Cell *>> *_gamefield = nullptr; // указатель на игровое поле
-    QString _filedir;
+    int _ii, _jj;                                       // индексы текущей клетки
+    RobotDirect _direct;                                // направление робота
+    QVector<QVector<Cell *>> *_gamefield = nullptr;     // указатель на игровое поле
+    QString _filedir;                                   // название директории
 
-    QGraphicsTextItem _health_bar; // отображение жизней робота
-    QGraphicsTextItem _damage_bar; // отображение урона робота
-    QGraphicsTextItem _exp_bar; // отображение опыта робота
+    QGraphicsTextItem _health_bar;                      // отображение жизней робота
+    QGraphicsTextItem _damage_bar;                      // отображение урона робота
+    QGraphicsTextItem _exp_bar;                         // отображение опыта робота
 
     QVector<QString> _name_recs = {"exper", "healther", "damager"};
     QVector<QString> _name_enemys = {"robot2", "robot3"};
 
-    Cell* _target = nullptr; // текущая цель робота
+    Cell* _target = nullptr;                            // текущая цель робота
 
 public:
     Robot(const QString &Name, int Damage, int Health, int Exp,
@@ -43,17 +43,17 @@ public:
     void setGameField(QVector<QVector<Cell*>>* gamefield);
     QVector<QVector<Cell*>>* gameField() const;
 
-    void setPosIJ(int pi, int pj); // установить позицию робота в поле
+    void setPosIJ(int pi, int pj);                              // установить позицию робота в поле
     int posI() const;
     int posJ() const;
 
-    QString fileDir() const; // установить название директории с картинками
+    QString fileDir() const;                                    // установить название директории с картинками
     void setFileDir(const QString &filedir);
 
-    void setNameResources(const QVector<QString> &nameRecs); // установить имена собираемых ресурсов
+    void setNameResources(const QVector<QString> &nameRecs);    // установить имена собираемых ресурсов
     QVector<QString> nameResources() const;
 
-    void setNameEnemys(const QVector<QString> &nameEnemys); // установить имена атакуемых врагов
+    void setNameEnemys(const QVector<QString> &nameEnemys);     // установить имена атакуемых врагов
     QVector<QString> nameEnemys() const;
 
     RobotDirect direct() const;
@@ -70,30 +70,29 @@ public:
 
     //================методы взаимодействия с игровым полем и его игровыми объектами==========================
 
-    virtual void move(); // сделать шаг
+    virtual void move();                           // сделать шаг
 
-    virtual void collect(); // собрать ресурс
+    virtual void collect();                        // собрать ресурс
 
-    virtual void attack(); // атаковать противника
+    virtual void attack();                         // атаковать противника
 
-    virtual void action(); // принятие решения о том какое действие выполнить на текущем шаге
+    virtual void action();                         // принятие решения о том какое действие выполнить на текущем шаге
 
-    virtual void findNearestTarget(); // поиск ближайшей цели волновым алгоритмом
+    virtual void findNearestTarget();              // поиск ближайшей цели волновым алгоритмом
     //========================================================================================================
 
     //=======================вспомогательные методы======================================
 protected:
-    RobotDirect defineDirect(const QPair<int, int> &p); // определение направления к точке
+    RobotDirect defineDirect(const QPair<int, int> &p);                 // определение направления к точке
     //===================================================================================
 
 protected slots:
-    void changeHealthBar();
-    void changeDamageBar();
-    void changeExpBar();
+    void changeHealthBar();                                             //слот обновления _health_bar Robot'а
+    void changeDamageBar();                                             //слот обновления _damage_bar Robot'а
+    void changeExpBar();                                                //слот обновления _exp_bar Robot'а
 
 signals:
-    void deaded(Robot*);
-    void deleteBar(QGraphicsTextItem*);
+    void deaded(Robot*);                                                //сигнал на уничтожение объекта Robot
 
 public:
     virtual ~Robot();

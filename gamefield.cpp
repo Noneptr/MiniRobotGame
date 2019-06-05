@@ -60,6 +60,26 @@ void GameField::setIntervalGame(int interval)
     _timer.setInterval(interval);
 }
 
+
+void GameField::removeItemRobot(Robot *r)
+{
+    this->removeItem(r);
+    this->removeItem(r->healthBar());
+    this->removeItem(r->damageBar());
+    this->removeItem(r->expBar());
+    disconnect(&_timer, &QTimer::timeout, r, &Robot::action);
+    delete r;
+    r = nullptr;
+}
+
+void GameField::removeItemGameUnit(GameUnit *obj)
+{
+    this->removeItem(obj);
+    delete obj;
+    obj = nullptr;
+}
+
+
 void GameField::createRobot()
 {
     if (_ticks % 6 == 0)
@@ -67,26 +87,30 @@ void GameField::createRobot()
         int si = rand() % _cells.size();
         int sj = rand() % _cells[0].size();
 
-        if (_cells[si][sj]->MyObject() == nullptr)
+        Cell *cell = _cells[si][sj];
+
+        if (cell->MyObject() == nullptr)
         {
+            int size_cell = cell->width();
+
             int s = rand() % nrobots.size();
             QString &name = nrobots[s];
 
             if (name == "rstd")
             {
-                robot = new RobotStandart(50, 50, &_cells, si, sj, this);
+                robot = new RobotStandart(size_cell, size_cell, &_cells, si, sj, this);
                 robot->setNameResources({"exper", "healther", "damager"});
                 robot->setNameEnemys({"robot2", "robot3"});
             }
             else if (name == "rbul")
             {
-                robot = new RobotBullet(50, 50, &_cells, si, sj, this);
+                robot = new RobotBullet(size_cell, size_cell, &_cells, si, sj, this);
                 robot->setNameResources({"exper", "healther", "damager"});
                 robot->setNameEnemys({"robot1", "robot3"});
             }
             else
             {
-                robot = new RobotHealthy(50, 50, &_cells, si, sj, this);
+                robot = new RobotHealthy(size_cell, size_cell, &_cells, si, sj, this);
                 robot->setNameResources({"exper", "healther", "damager"});
                 robot->setNameEnemys({"robot1", "robot2"});
             }
@@ -96,10 +120,8 @@ void GameField::createRobot()
             addItem(robot->healthBar());
             addItem(robot->expBar());
 
-            connect(robot, &Robot::deaded, this, &GameField::removeItem);
-            connect(robot, &Robot::deleteBar, this, &GameField::removeItem);
-            connect(robot, &Robot::deaded, robot, &Robot::deleteLater);
             connect(&_timer, &QTimer::timeout, robot, &Robot::action);
+            connect(robot, &Robot::deaded, this, &GameField::removeItemRobot);
             robot = nullptr;
         }
     }
@@ -122,23 +144,22 @@ void GameField::createResource()
             QString &name = nresources[s];
             if (name == "exp")
             {
-                rec = new Exper(50, 50,this);
+                rec = new Exper(size_cell, size_cell,this);
             }
             else if (name == "hp")
             {
-                rec = new Healther(50, 50,this);
+                rec = new Healther(size_cell, size_cell,this);
             }
             else
             {
-                rec = new Damager(50, 50,this);
+                rec = new Damager(size_cell, size_cell,this);
             }
 
             addItem(rec);
             cell->setMyObject(rec);
             rec->setPos(sj * size_cell, si * size_cell);
 
-            connect(rec, &GameUnit::deaded, this, &GameField::removeItem);
-            connect(rec, &GameUnit::deaded, rec, &GameUnit::deleteLater);
+            connect(rec, &GameUnit::deaded, this, &GameField::removeItemGameUnit);
             rec = nullptr;
         }
     }
@@ -147,15 +168,9 @@ void GameField::createResource()
 
 GameField::~GameField()
 {
-    if (rec != nullptr)
-    {
-        delete rec;
-        rec = nullptr;
-    }
+    delete rec;
+    rec = nullptr;
 
-    if (robot != nullptr)
-    {
-        delete robot;
-        robot = nullptr;
-    }
+    delete robot;
+    robot = nullptr;
 }
