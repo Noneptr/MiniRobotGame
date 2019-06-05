@@ -20,5 +20,4 @@ void Healther::setHealth(int h)
 
 Healther::~Healther()
 {
-    cout << "Healther destroyed!!!" << endl;
 }

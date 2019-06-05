@@ -21,5 +21,4 @@ void Damager::setDamage(int d)
 
 Damager::~Damager()
 {
-    cout << "Damager destroyed!!!" << endl;
 }
