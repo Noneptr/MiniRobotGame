@@ -37,6 +37,7 @@ void MainWindow::on_graphicsView_clicked(QMouseEvent *event)
     QPointF p = event->pos();
     int i = static_cast<int>(p.y() / size_cell);
     int j = static_cast<int>(p.x() / size_cell);
+    scene->createRobot(name_robot, i, j);
 }
 
 

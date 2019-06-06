@@ -35,8 +35,6 @@ public:
               int size_cell, int interval, QObject *parent = nullptr);
 
 public slots:
-    void createRobot();                             // создать на случайной ячейке случайного нового робота
-    void createResource();                          // создать на случайной ячейке случайный новый ресурс
     void playGame();                                // запустить симуляцию
     void playStepGame();                            // запустить один шаг симуляции
     void stopGame();                                // остановить симуляцию
@@ -44,7 +42,11 @@ public slots:
     void removeItemRobot(Robot *r);                 // слот отчиски Robot с игрового поля и отчиска занимаемой им памяти
     void removeItemGameUnit(GameUnit *obj);         // слот отчиски GameUnit с игрового поля и отчиска занимаемой им памяти
     void clearCells();                              // отчистить ячейки игрового поля
-    void createRobot(const QString &name_robot, int i, int j);      // создать опред. робота на опред. ячейке
+
+    void createRobot(const QString &name_robot, int i, int j);    // создать опред. робота на опред. ячейке
+    void createResource(const QString &name_rec, int i, int j);   // создать опред. ресурса на опред. ячейке
+    void createRobot();                                         // создать на случайной ячейке случайного нового робота
+    void createResource();                                      // создать на случайной ячейке случайный новый ресурс
 
 public:
     ~GameField();

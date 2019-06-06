@@ -22,8 +22,8 @@ GameField::GameField(qreal x, qreal y, qreal width, qreal height,
     _timer.setInterval(interval);
     srand(static_cast<unsigned long>(time(nullptr)));
     connect(&_timer, &QTimer::timeout, [this]()->void{if(_ticks > 1000){_ticks = 1;}else{_ticks++;}});
-    connect(&_timer, &QTimer::timeout, this, &GameField::createResource);
-    connect(&_timer, &QTimer::timeout, this, &GameField::createRobot);
+    connect(&_timer, SIGNAL(timeout()), this, SLOT(createResource()));
+    connect(&_timer, SIGNAL(timeout()), this, SLOT(createRobot()));
 }
 
 
@@ -117,6 +117,80 @@ void GameField::removeItemGameUnit(GameUnit *obj)
 }
 
 
+void GameField::createRobot(const QString &name_robot, int i, int j)
+{
+    Cell *cell = _cells[i][j];
+
+    if (cell->MyObject() == nullptr)
+    {
+        int size_cell = cell->width();
+
+        Robot *robot;
+
+        if (name_robot == "robot1")
+        {
+            robot = new RobotStandart(size_cell, size_cell, &_cells, i, j, this);
+            robot->setNameResources({"exper", "healther", "damager"});
+            robot->setNameEnemys({"robot2", "robot3"});
+        }
+        else if (name_robot == "robot2")
+        {
+            robot = new RobotBullet(size_cell, size_cell, &_cells, i, j, this);
+            robot->setNameResources({"exper", "healther", "damager"});
+            robot->setNameEnemys({"robot1", "robot3"});
+        }
+        else
+        {
+            robot = new RobotHealthy(size_cell, size_cell, &_cells, i, j, this);
+            robot->setNameResources({"exper", "healther", "damager"});
+            robot->setNameEnemys({"robot1", "robot2"});
+        }
+
+        addItem(robot);
+        addItem(robot->damageBar());
+        addItem(robot->healthBar());
+        addItem(robot->expBar());
+
+        connect(&_timer, &QTimer::timeout, robot, &Robot::action);
+        connect(robot, &Robot::deaded, this, &GameField::removeItemRobot);
+        robot = nullptr;
+    }
+}
+
+
+void GameField::createResource(const QString &name_rec, int i, int j)
+{
+    Cell *cell = _cells[i][j];
+
+    if (cell->MyObject() == nullptr)
+    {
+        int size_cell = cell->width();
+
+        GameUnit *rec;
+
+        if (name_rec == "exper")
+        {
+            rec = new Exper(size_cell, size_cell,this);
+        }
+        else if (name_rec == "healther")
+        {
+            rec = new Healther(size_cell, size_cell,this);
+        }
+        else
+        {
+            rec = new Damager(size_cell, size_cell,this);
+        }
+
+        addItem(rec);
+        cell->setMyObject(rec);
+        rec->setPos(j * size_cell, i * size_cell);
+
+        connect(rec, &GameUnit::deaded, this, &GameField::removeItemGameUnit);
+        rec = nullptr;
+    }
+}
+
+
 void GameField::createRobot()
 {
     if (_ticks % 6 == 0)
@@ -124,45 +198,10 @@ void GameField::createRobot()
         int si = rand() % _cells.size();
         int sj = rand() % _cells[0].size();
 
-        Cell *cell = _cells[si][sj];
+        int s = rand() % nrobots.size();
+        QString &name = nrobots[s];
 
-        if (cell->MyObject() == nullptr)
-        {
-            int size_cell = cell->width();
-
-            int s = rand() % nrobots.size();
-            QString &name = nrobots[s];
-
-            Robot *robot;
-
-            if (name == "robot1")
-            {
-                robot = new RobotStandart(size_cell, size_cell, &_cells, si, sj, this);
-                robot->setNameResources({"exper", "healther", "damager"});
-                robot->setNameEnemys({"robot2", "robot3"});
-            }
-            else if (name == "robot2")
-            {
-                robot = new RobotBullet(size_cell, size_cell, &_cells, si, sj, this);
-                robot->setNameResources({"exper", "healther", "damager"});
-                robot->setNameEnemys({"robot1", "robot3"});
-            }
-            else
-            {
-                robot = new RobotHealthy(size_cell, size_cell, &_cells, si, sj, this);
-                robot->setNameResources({"exper", "healther", "damager"});
-                robot->setNameEnemys({"robot1", "robot2"});
-            }
-
-            addItem(robot);
-            addItem(robot->damageBar());
-            addItem(robot->healthBar());
-            addItem(robot->expBar());
-
-            connect(&_timer, &QTimer::timeout, robot, &Robot::action);
-            connect(robot, &Robot::deaded, this, &GameField::removeItemRobot);
-            robot = nullptr;
-        }
+        createRobot(name, si, sj);
     }
 }
 
@@ -174,44 +213,11 @@ void GameField::createResource()
         int si = rand() % _cells.size();
         int sj = rand() % _cells[0].size();
 
-        Cell *cell = _cells[si][sj];
+        int s = rand() % nresources.size();
+        QString &name = nresources[s];
 
-        if (cell->MyObject() == nullptr)
-        {
-            int size_cell = cell->width();
-
-            int s = rand() % nresources.size();
-            QString &name = nresources[s];
-
-            GameUnit *rec;
-
-            if (name == "exper")
-            {
-                rec = new Exper(size_cell, size_cell,this);
-            }
-            else if (name == "healther")
-            {
-                rec = new Healther(size_cell, size_cell,this);
-            }
-            else
-            {
-                rec = new Damager(size_cell, size_cell,this);
-            }
-
-            addItem(rec);
-            cell->setMyObject(rec);
-            rec->setPos(sj * size_cell, si * size_cell);
-
-            connect(rec, &GameUnit::deaded, this, &GameField::removeItemGameUnit);
-            rec = nullptr;
-        }
+        createResource(name, si, sj);
     }
-}
-
-
-void GameField::createRobot(const QString &name_robot, int i, int j)
-{
-
 }
 
 
