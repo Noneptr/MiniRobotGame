@@ -133,6 +133,8 @@ void GameField::createRobot()
             int s = rand() % nrobots.size();
             QString &name = nrobots[s];
 
+            Robot *robot;
+
             if (name == "robot1")
             {
                 robot = new RobotStandart(size_cell, size_cell, &_cells, si, sj, this);
@@ -181,6 +183,8 @@ void GameField::createResource()
             int s = rand() % nresources.size();
             QString &name = nresources[s];
 
+            GameUnit *rec;
+
             if (name == "exper")
             {
                 rec = new Exper(size_cell, size_cell,this);
@@ -205,11 +209,12 @@ void GameField::createResource()
 }
 
 
+void GameField::createRobot(const QString &name_robot, int i, int j)
+{
+
+}
+
+
 GameField::~GameField()
 {
-    delete rec;
-    rec = nullptr;
-
-    delete robot;
-    robot = nullptr;
 }

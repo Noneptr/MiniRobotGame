@@ -5,7 +5,6 @@
 #include <QWidget>
 #include <QLabel>
 #include <QMouseEvent>
-#include <QDebug>
 
 class ClickableLabel : public QLabel
 {

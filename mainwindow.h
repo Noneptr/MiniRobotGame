@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include "gamefield.h"
-#include "clickablelabel.h"
 #include <QDebug>
 
 namespace Ui {
@@ -35,10 +34,13 @@ private slots:
 
     void on_label_rhp_clicked();
 
+    void on_graphicsView_clicked(QMouseEvent *event);
+
 private:
     Ui::MainWindow *ui;
     GameField *scene;
     QString name_robot = "robot1";
+    int size_cell = 50;
 };
 
 #endif // MAINWINDOW_H

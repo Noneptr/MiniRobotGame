@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += widgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -39,7 +40,8 @@ SOURCES += \
     robotstandart.cpp \
     robothealthy.cpp \
     robotbullet.cpp \
-    clickablelabel.cpp
+    clickablelabel.cpp \
+    gamefieldview.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -55,7 +57,8 @@ HEADERS += \
     robotstandart.h \
     robothealthy.h \
     robotbullet.h \
-    clickablelabel.h
+    clickablelabel.h \
+    gamefieldview.h
 
 FORMS += \
         mainwindow.ui

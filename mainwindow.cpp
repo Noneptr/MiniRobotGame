@@ -17,14 +17,11 @@ MainWindow::MainWindow(QWidget *parent) :
     int interval = 100;
     scene = new GameField(ui->graphicsView->x() - 1, ui->graphicsView->y() - 1,
                                           ui->graphicsView->width(), ui->graphicsView->height(),
-                                            50, interval, this);
+                                            size_cell, interval, this);
     ui->sb_interval->setValue(interval);
 
     ui->graphicsView->setScene(scene);
 
-//    connect(ui->label_rstd, SIGNAL(clicked()), this, SLOT(on_label_rstd_clicked()));
-//    connect(ui->label_rdmg, SIGNAL(clicked()), this, SLOT(on_label_rdmg_clicked()));
-//    connect(ui->label_rhp, SIGNAL(clicked()), this, SLOT(on_label_rhp_clicked()));
     ui->label_rstd->setFrameShadow(QFrame::Sunken);
 }
 
@@ -32,6 +29,14 @@ MainWindow::~MainWindow()
 {
     delete scene;
     delete ui;
+}
+
+
+void MainWindow::on_graphicsView_clicked(QMouseEvent *event)
+{
+    QPointF p = event->pos();
+    int i = static_cast<int>(p.y() / size_cell);
+    int j = static_cast<int>(p.x() / size_cell);
 }
 
 
