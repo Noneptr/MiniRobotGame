@@ -38,7 +38,8 @@ SOURCES += \
     algorithm_help_robot.cpp \
     robotstandart.cpp \
     robothealthy.cpp \
-    robotbullet.cpp
+    robotbullet.cpp \
+    clickablelabel.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -53,7 +54,8 @@ HEADERS += \
     algorithm_help_robot.h \
     robotstandart.h \
     robothealthy.h \
-    robotbullet.h
+    robotbullet.h \
+    clickablelabel.h
 
 FORMS += \
         mainwindow.ui

@@ -2,10 +2,6 @@
 #define GAMEUNIT_H
 
 #include "gameobject.h"
-
-#include <iostream>
-using namespace std;
-
 // класс игровая единица, производный класс для создания объектов в игре
 
 class GameUnit: public GameObject

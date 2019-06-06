@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QGraphicsTextItem>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -22,6 +21,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->sb_interval->setValue(interval);
 
     ui->graphicsView->setScene(scene);
+
+//    connect(ui->label_rstd, SIGNAL(clicked()), this, SLOT(on_label_rstd_clicked()));
+//    connect(ui->label_rdmg, SIGNAL(clicked()), this, SLOT(on_label_rdmg_clicked()));
+//    connect(ui->label_rhp, SIGNAL(clicked()), this, SLOT(on_label_rhp_clicked()));
+    ui->label_rstd->setFrameShadow(QFrame::Sunken);
 }
 
 MainWindow::~MainWindow()
@@ -29,6 +33,43 @@ MainWindow::~MainWindow()
     delete scene;
     delete ui;
 }
+
+
+void MainWindow::on_label_rstd_clicked()
+{
+    if (name_robot != "robot1")
+    {
+        name_robot = "robot1";
+        ui->label_rstd->setFrameShadow(QFrame::Sunken);
+        ui->label_rdmg->setFrameShadow(QFrame::Raised);
+        ui->label_rhp->setFrameShadow(QFrame::Raised);
+    }
+}
+
+
+void MainWindow::on_label_rdmg_clicked()
+{
+    if (name_robot != "robot2")
+    {
+        name_robot = "robot2";
+        ui->label_rstd->setFrameShadow(QFrame::Raised);
+        ui->label_rdmg->setFrameShadow(QFrame::Sunken);
+        ui->label_rhp->setFrameShadow(QFrame::Raised);
+    }
+}
+
+
+void MainWindow::on_label_rhp_clicked()
+{
+    if (name_robot != "robot3")
+    {
+        name_robot = "robot3";
+        ui->label_rstd->setFrameShadow(QFrame::Raised);
+        ui->label_rdmg->setFrameShadow(QFrame::Raised);
+        ui->label_rhp->setFrameShadow(QFrame::Sunken);
+    }
+}
+
 
 void MainWindow::on_bt_play_game_clicked()
 {
