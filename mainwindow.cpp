@@ -7,7 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     int win_w = 704;
-    int win_h = 600;
+    int win_h = 630;
     this->setGeometry(this->x(), this->y(), win_w, win_h);
     this->setMaximumWidth(win_w);
     this->setMaximumHeight(win_h);
@@ -37,42 +37,115 @@ void MainWindow::on_graphicsView_clicked(QMouseEvent *event)
     QPointF p = event->pos();
     int i = static_cast<int>(p.y() / size_cell);
     int j = static_cast<int>(p.x() / size_cell);
-    scene->createRobot(name_robot, i, j);
+    if (type_object == "robot")
+    {
+        scene->createRobot(name_object, i, j);
+    }
+    else
+    {
+        scene->createResource(name_object, i, j);
+    }
+}
+
+
+void MainWindow::work_with_label_obj_clicked(int index)
+{
+    ui->label_rstd->setFrameShadow(QFrame::Raised);
+    ui->label_rdmg->setFrameShadow(QFrame::Raised);
+    ui->label_rhp->setFrameShadow(QFrame::Raised);
+    ui->label_hp->setFrameShadow(QFrame::Raised);
+    ui->label_dmg->setFrameShadow(QFrame::Raised);
+    ui->label_exp->setFrameShadow(QFrame::Raised);
+
+    if (index == 1)
+    {
+        name_object = "robot1";
+        ui->label_rstd->setFrameShadow(QFrame::Sunken);
+        type_object = "robot";
+    }
+    else if (index == 2)
+    {
+        name_object = "robot2";
+        ui->label_rdmg->setFrameShadow(QFrame::Sunken);
+        type_object = "robot";
+    }
+    else if (index == 3)
+    {
+        name_object = "robot3";
+        ui->label_rhp->setFrameShadow(QFrame::Sunken);
+        type_object = "robot";
+    }
+    else if (index == 4)
+    {
+        name_object = "healther";
+        ui->label_hp->setFrameShadow(QFrame::Sunken);
+        type_object = "rec";
+    }
+    else if (index == 5)
+    {
+        name_object = "damager";
+        ui->label_dmg->setFrameShadow(QFrame::Sunken);
+        type_object = "rec";
+    }
+    else if (index == 6)
+    {
+        name_object = "exper";
+        ui->label_exp->setFrameShadow(QFrame::Sunken);
+        type_object = "rec";
+    }
 }
 
 
 void MainWindow::on_label_rstd_clicked()
 {
-    if (name_robot != "robot1")
+    if (name_object != "robot1")
     {
-        name_robot = "robot1";
-        ui->label_rstd->setFrameShadow(QFrame::Sunken);
-        ui->label_rdmg->setFrameShadow(QFrame::Raised);
-        ui->label_rhp->setFrameShadow(QFrame::Raised);
+        work_with_label_obj_clicked(1);
     }
 }
 
 
 void MainWindow::on_label_rdmg_clicked()
 {
-    if (name_robot != "robot2")
+    if (name_object != "robot2")
     {
-        name_robot = "robot2";
-        ui->label_rstd->setFrameShadow(QFrame::Raised);
-        ui->label_rdmg->setFrameShadow(QFrame::Sunken);
-        ui->label_rhp->setFrameShadow(QFrame::Raised);
+        work_with_label_obj_clicked(2);
     }
 }
 
 
 void MainWindow::on_label_rhp_clicked()
 {
-    if (name_robot != "robot3")
+    if (name_object != "robot3")
     {
-        name_robot = "robot3";
-        ui->label_rstd->setFrameShadow(QFrame::Raised);
-        ui->label_rdmg->setFrameShadow(QFrame::Raised);
-        ui->label_rhp->setFrameShadow(QFrame::Sunken);
+        work_with_label_obj_clicked(3);
+    }
+}
+
+
+void MainWindow::on_label_hp_clicked()
+{
+    if (name_object != "healther")
+    {
+        work_with_label_obj_clicked(4);
+    }
+}
+
+
+void MainWindow::on_label_dmg_clicked()
+{
+    if (name_object != "damager")
+    {
+        work_with_label_obj_clicked(5);
+    }
+}
+
+
+void MainWindow::on_label_exp_clicked()
+{
+    if (name_object != "exper")
+    {
+        work_with_label_obj_clicked(6);
     }
 }
 

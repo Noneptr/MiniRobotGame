@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include "gamefield.h"
-#include <QDebug>
+#include "clickablelabel.h"
 
 namespace Ui {
 class MainWindow;
@@ -36,10 +36,19 @@ private slots:
 
     void on_graphicsView_clicked(QMouseEvent *event);
 
+    void on_label_hp_clicked();
+
+    void on_label_dmg_clicked();
+
+    void on_label_exp_clicked();
+
+    void work_with_label_obj_clicked(int index);    // соответсвенные лейблы кнопки {1, 2, 3, 4, 5, 6}
+
 private:
     Ui::MainWindow *ui;
     GameField *scene;
-    QString name_robot = "robot1";
+    QString name_object = "robot1";                 // {robot1, robot2, robot3, healther, damager, exper}
+    QString type_object = "robot";                  // {robot, rec}
     int size_cell = 50;
 };
 
