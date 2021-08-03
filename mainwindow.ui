@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Robots</string>
+   <string>MiniRobotGame</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="GameFieldView" name="graphicsView">
@@ -30,7 +30,7 @@
      <enum>Qt::ScrollBarAlwaysOff</enum>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>12</x>
